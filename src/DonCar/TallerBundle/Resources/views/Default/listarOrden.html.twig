@@ -1,0 +1,66 @@
+{% extends 'DonCarTallerBundle::layout.html.twig' %}
+
+
+{% block title 'Gestionar Orden' %}
+
+
+{% block content %}
+  <h1 class="title">Ordenes</h1>
+    <table class="tablas" >
+      <tr>
+          <td>Numero</td>
+          <td>Estado</td>
+          <td>Mecanico</td>
+          <td>Tiempo (UT)</td>
+          <td>Trabajos efectuados</td>
+          <td>Tiempo total</td>
+      </tr>
+      {% for orden in ordenes %}
+      <tr>
+          <td>
+            <button onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+              <span class="ui-icon ui-icon-trash" > 
+              </span> 
+           </button>
+ {{ orden.numero }}</td>
+          <td>{{ orden.estado.nombre }}</td>
+          <td>{{ orden.mecanico.numero }} ({{ orden.mecanico.apellido  }}, {{ orden.mecanico.nombre }}) </td>
+          <td>{{ orden.tiempo }}</td>
+          <td>{{ orden.periodosTrabajo|length }}</td>
+          <td>    		{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}
+          </td>
+      </tr>
+      {% endfor %}
+
+  </table>
+<br/>
+<a href="{{ path( 'taller_alta_orden') }}">Cargar nueva orden</a>
+
+{% endblock %}
+
+
+{% block javascripts %} 
+<script>
+  function confe(orden){
+    if (confirm("Esta seguro de que desea eliminar la orden seleccionada?")){
+    alert(  httpGet("{{ path('taller_eliminar_orden', {'id' :' ' ,})  }}"+orden));
+    location.reload();
+
+    }
+  };
+
+
+function httpGet(theUrl){
+    var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+};
+
+
+</script>
+{% endblock %}
+
+

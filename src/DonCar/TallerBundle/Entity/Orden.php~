@@ -1,0 +1,174 @@
+<?php
+
+namespace DonCar\TallerBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="ordenes")
+ * @ORM\Entity
+ *
+*/
+
+class Orden{
+
+	/**
+	* @ORM\Id
+	* @ORM\Column(type="integer")
+	* @ORM\GeneratedValue(strategy="AUTO")
+	*/
+	protected $id;
+
+  	/**
+	* @ORM\Column(type="string", length=100)
+	*/
+	protected $numero;
+
+  	/**
+	* @ORM\Column(type="integer")
+	*/
+	protected $tiempo;
+
+ 	/**
+     	* @Assert\Type(type="DonCar\TallerBundle\Entity\Mecanico")
+     	*/
+	/**
+	* @ORM\ManyToOne(targetEntity="Mecanico")
+	* @ORM\JoinColumn(name="mecanico_id", referencedColumnName="id")
+	*/
+	protected $mecanico;
+
+ 	/**
+     	* @Assert\Type(type="DonCar\TallerBundle\Entity\EstadoOrden")
+     	*/
+	/**
+	* @ORM\ManyToOne(targetEntity="EstadoOrden")
+	* @ORM\JoinColumn(name="estado_id", referencedColumnName="id")
+	*/
+	protected $estado;
+
+	 /**
+     	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="orden", cascade={"persist", "remove"})
+     	*/
+	protected $periodosTrabajo;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->periodosTrabajo = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param string $numero
+     * @return Orden
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return string 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set tiempo
+     *
+     * @param integer $tiempo
+     * @return Orden
+     */
+    public function setTiempo($tiempo)
+    {
+        $this->tiempo = $tiempo;
+
+        return $this;
+    }
+
+    /**
+     * Get tiempo
+     *
+     * @return integer 
+     */
+    public function getTiempo()
+    {
+        return $this->tiempo;
+    }
+
+    /**
+     * Set mecanico
+     *
+     * @param \DonCar\TallerBundle\Entity\Mecanico $mecanico
+     * @return Orden
+     */
+    public function setMecanico(\DonCar\TallerBundle\Entity\Mecanico $mecanico = null)
+    {
+        $this->mecanico = $mecanico;
+
+        return $this;
+    }
+
+    /**
+     * Get mecanico
+     *
+     * @return \DonCar\TallerBundle\Entity\Mecanico 
+     */
+    public function getMecanico()
+    {
+        return $this->mecanico;
+    }
+
+    /**
+     * Add periodosTrabajo
+     *
+     * @param \DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajo
+     * @return Orden
+     */
+    public function addPeriodosTrabajo(\DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajo)
+    {
+        $this->periodosTrabajo[] = $periodosTrabajo;
+
+        return $this;
+    }
+
+    /**
+     * Remove periodosTrabajo
+     *
+     * @param \DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajo
+     */
+    public function removePeriodosTrabajo(\DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajo)
+    {
+        $this->periodosTrabajo->removeElement($periodosTrabajo);
+    }
+
+    /**
+     * Get periodosTrabajo
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPeriodosTrabajo()
+    {
+        return $this->periodosTrabajo;
+    }
+}

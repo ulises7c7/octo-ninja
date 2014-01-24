@@ -1,0 +1,4 @@
+don_car_taller:
+    resource: "@DonCarTallerBundle/Resources/config/routing.yml"
+    prefix:   /taller
+

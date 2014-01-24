@@ -1,0 +1,35 @@
+don_car_taller_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: DonCarTallerBundle:Default:index }
+
+taller_listar_mecanico:
+    pattern:  /mecanico/listar
+    defaults: { _controller: DonCarTallerBundle:Default:listarMecanico }
+
+taller_alta_mecanico:
+    pattern:  /mecanico/alta
+    defaults: { _controller: DonCarTallerBundle:Default:altaMecanico }
+
+taller_alta_orden:
+    pattern: /orden/alta
+    defaults: { _controller: DonCarTallerBundle:Ordenes:altaOrden }
+
+taller_gestion_orden:
+    pattern: /orden/gestion
+    defaults: { _controller: DonCarTallerBundle:Ordenes:gestionOrden }
+
+taller_listar_orden:
+    pattern: /orden/listar
+    defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrden }
+
+taller_operacion_exitosa:
+    pattern: /exito
+    defaults: { _controller: DonCarTallerBundle:Default:operacionExitosa }
+
+taller_eliminar_mecanico:
+    pattern: /mecanico/eliminar/{id}
+    defaults: { _controller: DonCarTallerBundle:Default:eliminarMecanico }
+
+taller_eliminar_orden:
+    pattern: /orden/eliminar/{id}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:eliminarOrden }

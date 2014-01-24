@@ -1,0 +1,47 @@
+{% extends '::base.html.twig' %}
+
+
+{% block stylesheets %}
+ <link href="{{ asset('bundles/doncartaller/css/body.css') }}" type="text/css" rel="stylesheet" />
+ <link href="{{ asset('bundles/doncartaller/css/general.css') }}" type="text/css" rel="stylesheet" />
+ <link href="{{ asset('bundles/doncartaller/css/structure.css') }}" type="text/css" rel="stylesheet" />
+ <link href="{{ asset('bundles/doncartaller/css/custom.css') }}" type="text/css" rel="stylesheet" />
+ <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+ <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+ <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+ <link rel="stylesheet" href="{{ asset('bundles/doncartaller/lib/jquery-ui/demos/style.css') }}">
+{% endblock %}
+
+
+{% block title 'DonCar Taller' %}
+
+{% block body %}
+<div id="content">
+  <div class="header clear-fix">
+    <div class="header-logo">
+        <img  src="{{ asset('bundles/doncartaller/images/dc_logo_small.png') }}" alt="VW Logo"/>
+    </div>
+
+    <div class="search">
+      <h1 style="font-size:50px;">Taller</h1>
+    </div>
+
+  </div>
+
+  <div class="sf-reset">
+
+    <div class="block">
+    <ul>
+      <li><a href="{{ path( 'taller_listar_orden') }}">Ordenes</a></li>
+      <li><a href="{{ path( 'taller_listar_mecanico') }}">Mecanicos</a></li>
+      <li><a href="{{ path( 'taller_gestion_orden') }}">Iniciar/Detener Trabajo</a></li>
+    </ul>
+ 
+      {% block content %}
+      {% endblock %}  
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
