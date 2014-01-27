@@ -2,6 +2,10 @@ don_car_taller_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: DonCarTallerBundle:Default:index }
 
+taller_editar_mecanico:
+    pattern:  /mecanico/editar/{id}
+    defaults: { _controller: DonCarTallerBundle:Default:editarMecanico }
+
 taller_listar_mecanico:
     pattern:  /mecanico/listar
     defaults: { _controller: DonCarTallerBundle:Default:listarMecanico }

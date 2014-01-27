@@ -8,20 +8,27 @@
   <h1 class="title">Mecanicos</h1>
     <table class="tablas" >
       <tr>
-          <td>Acciones</td>
           <td>Numero</td>
           <td>Nombre</td>
+          <td>Acciones</td>
       </tr>
       {% for mecanico in mecanicos %}
       <tr>
+          <td>{{ mecanico.numero }} </td>
+          <td>{{ mecanico.apellido }}, {{ mecanico.nombre }}</td>
           <td>
+
             <button onClick="confe( {{ mecanico.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
               <span class="ui-icon ui-icon-trash" > 
               </span>
            </button>
+
+            <button onClick="confe( {{ mecanico.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+              <span class="ui-icon ui-icon-pencil" > 
+              </span>
+           </button>
+
           </td>
-          <td>{{ mecanico.numero }} </td>
-          <td>{{ mecanico.apellido }}, {{ mecanico.nombre }}</td>
       </tr>
       {% endfor %}
 

@@ -30,6 +30,22 @@ public function eliminarMecanicoAction($id){
   return $this->render('DonCarTallerBundle:Default:mensaje.html.twig', array('mensaje' => 'Se ha eliminado el mecanico.'));
 }
 
+public function editarMecanicoAction(Request $request){
+  $mecanico = new Mecanico();
+  $form = $this->createForm(new MecanicoType(), $mecanico);
+  $form->handleRequest($request);
+
+  if ($form->isValid()) {
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($mecanico);
+    $em->flush();
+
+    return $this->redirect($this->generateUrl('taller_listar_mecanico'));
+  }
+
+  return $this->render('DonCarTallerBundle:Default:altaMecanico.html.twig', array('form' => $form->createView(),)); 
+}
+
 public function altaMecanicoAction(Request $request){
   $mecanico = new Mecanico();
   $form = $this->createForm(new MecanicoType(), $mecanico);
