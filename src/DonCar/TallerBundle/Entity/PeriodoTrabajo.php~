@@ -3,6 +3,7 @@
 namespace DonCar\TallerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \DateTime;
 
 /**
  * @ORM\Table(name="periodo_trabajo")
@@ -34,6 +35,22 @@ class PeriodoTrabajo{
      	* @ORM\JoinColumn(name="orden_id", referencedColumnName="id")
      	*/   
 	protected $orden;
+
+
+
+
+
+   public function getTiempo(){
+     if ($this->getFin()){
+       $diferencia = $this->getFin()->diff( $this->getInicio());
+     }else{
+	$horaActual = new DateTime();
+       $diferencia =  $horaActual->diff( $this->getInicio());
+     }
+      return $diferencia;
+   }
+
+
 
     /**
      * Get id

@@ -2,6 +2,8 @@
 
 namespace DonCar\TallerBundle\Entity;
 
+use \DateTime;
+use \DateInterval;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,18 @@ class Orden{
      	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="orden", cascade={"persist", "remove"})
      	*/
 	protected $periodosTrabajo;
+
+
+
+   public function getTiempoTrabajado(){
+	$periodos = $this->getPeriodosTrabajo();
+	$e = new DateTime('00:00');
+	$f = clone $e;
+	foreach($periodos as $periodo){
+	  $e->add($periodo->getTiempo());
+        }
+	return $f->diff($e);
+   }
 
     /**
      * Constructor
@@ -170,5 +184,28 @@ class Orden{
     public function getPeriodosTrabajo()
     {
         return $this->periodosTrabajo;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param \DonCar\TallerBundle\Entity\EstadoOrden $estado
+     * @return Orden
+     */
+    public function setEstado(\DonCar\TallerBundle\Entity\EstadoOrden $estado = null)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return \DonCar\TallerBundle\Entity\EstadoOrden 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }
