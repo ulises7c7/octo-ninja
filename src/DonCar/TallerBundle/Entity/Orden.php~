@@ -55,6 +55,68 @@ class Orden{
 	protected $periodosTrabajo;
 
 
+public function iniciar($mecanico, $estado_iniciado){
+  if ($this->getEstado()->getNumero() == EstadoOrden::DETENIDO){
+	$nuevoTrabajo = new PeriodoTrabajo();
+	$nuevoTrabajo->setMecanico($mecanico);
+	$nuevoTrabajo->setOrden($this);
+	$horaActual = new \DateTime("now");
+	$nuevoTrabajo->setInicio($horaActual);
+	
+	$this->setEstado($estado_iniciado);
+	$this->setMecanico($mecanico);
+	$this->addPeriodosTrabajo($nuevoTrabajo);
+  }else {
+	//TODO: Tratar excepcion
+	$msj = "No se pudo iniciar el trabajo";
+	return  $msj;
+ }
+}
+
+
+public function detener($mecanico, $estado_detenido){
+  $errores = true;
+  $msj = "No se pudo detener el trabajo";
+
+  if($mecanico->getId() != $this->getMecanico()->getId()){
+	//TODO: Tratar excepcion
+	$errores = true;
+	$msj = "No se pudo detener el trabajo porque la orden esta asignada a otro mecanico";
+  }elseif($this->getEstado()->getNumero() == EstadoOrden::EN_EJECUCION){
+	
+	//Obtener ultimo trabajo
+	$periodos = $this->getPeriodosTrabajo();
+	$cant = count($periodos);
+	$ultimoTrabajo = $periodos->get($cant -1);
+
+	//Establecer datos ultimo trabajo
+	$horaActual = new \DateTime("now");
+	$ultimoTrabajo->setFin($horaActual);
+	
+	//Estabecer datos de la orden
+	$this->setEstado($estado_detenido);
+	$errores = false;
+	$msj = "La operacion se completo exitosamente";
+
+  }else{
+	//TODO: Tratar excepcion
+	$errores = true;
+	$msj = "No se pudo detener el trabajo porque no esta en ejecucion";
+  }
+  
+  return  array('errores'=> $errores, 'mensaje'=> $msj);
+
+}
+
+private function iniciarDetener($mecanico, $estado){
+
+  if ($this->getEstado()->getNumero()== EstadoOrden::DETENIDO){
+	return $this->iniciar($mecanico, $estado);
+  }else
+	return $this->detener($mecanico, $estado);
+}
+
+
 
    public function getTiempoTrabajado(){
 	$periodos = $this->getPeriodosTrabajo();

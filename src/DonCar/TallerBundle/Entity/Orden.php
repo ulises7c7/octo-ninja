@@ -14,10 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Orden{
 
-  //TODO: Convertir e variables de clase de la clase EstadoOrden
-  private $DETENIDO = 1;
-  private $EN_EJECUCION = 2;
-
 	/**
 	* @ORM\Id
 	* @ORM\Column(type="integer")
@@ -60,7 +56,7 @@ class Orden{
 
 
 public function iniciar($mecanico, $estado_iniciado){
-  if ($this->getEstado()->getNumero() == $DETENIDO){
+  if ($this->getEstado()->getNumero() == EstadoOrden::DETENIDO){
 	$nuevoTrabajo = new PeriodoTrabajo();
 	$nuevoTrabajo->setMecanico($mecanico);
 	$nuevoTrabajo->setOrden($this);
@@ -72,7 +68,7 @@ public function iniciar($mecanico, $estado_iniciado){
 	$this->addPeriodosTrabajo($nuevoTrabajo);
   }else {
 	//TODO: Tratar excepcion
-	$msj = "No se pudo iniciar el trabajo"
+	$msj = "No se pudo iniciar el trabajo";
 	return  $msj;
  }
 }
@@ -86,12 +82,12 @@ public function detener($mecanico, $estado_detenido){
 	//TODO: Tratar excepcion
 	$errores = true;
 	$msj = "No se pudo detener el trabajo porque la orden esta asignada a otro mecanico";
-  }elseif($this->getEstado()-getNumero() == $EN_EJECUCION){
+  }elseif($this->getEstado()->getNumero() == EstadoOrden::EN_EJECUCION){
 	
 	//Obtener ultimo trabajo
 	$periodos = $this->getPeriodosTrabajo();
 	$cant = count($periodos);
-	$ultimoTrabajo = $periodosOrden->get($cant -1);
+	$ultimoTrabajo = $periodos->get($cant -1);
 
 	//Establecer datos ultimo trabajo
 	$horaActual = new \DateTime("now");
@@ -114,7 +110,7 @@ public function detener($mecanico, $estado_detenido){
 
 private function iniciarDetener($mecanico, $estado){
 
-  if ($this->getEstado()->getNumero()== $DETENIDO){
+  if ($this->getEstado()->getNumero()== EstadoOrden::DETENIDO){
 	return $this->iniciar($mecanico, $estado);
   }else
 	return $this->detener($mecanico, $estado);

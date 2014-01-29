@@ -7,6 +7,7 @@ use DonCar\TallerBundle\Form\Type\MecanicoType;
 use DonCar\TallerBundle\Form\Type\OrdenType;
 use DonCar\TallerBundle\Entity\PeriodoTrabajo;
 use DonCar\TallerBundle\Entity\Mecanico;
+use DonCar\TallerBundle\Entity\EstadoOrden;
 use DonCar\TallerBundle\Entity\Orden;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -54,54 +55,54 @@ public function gestionarOrdenAction(Request $request){
         ->findOneByNumero($numeroMecanico);
  
 	//Comprobar existencia de mecanico
-    	if (!$mecanico) {
-	  //TODO: usar mensajes del formulario
+    	if ($mecanico) {
+	  //Buscar Orden en base de datos
+	  $orden = $this->getDoctrine()
+          	->getRepository('DonCarTallerBundle:Orden')
+          	->findOneByNumero($numeroOrden);
+    	
+	  //Comprobar existencia de Orden
+	  if ($orden) {
+
+ 	    //Obtener entity manager
+    	    $em = $this->getDoctrine()->getManager();
+
+	    //Obtener estado correspondiente
+	    $estadoDetenido = $this->getDoctrine()
+        	->getRepository('DonCarTallerBundle:EstadoOrden')
+		->findOneByNumero(1);
+ 
+	    $estadoEnEjecucion = $this->getDoctrine()
+        	->getRepository('DonCarTallerBundle:EstadoOrden')
+		->findOneByNumero(2); 
+
+	    if ($orden->getEstado()->getNumero() == EstadoOrden::EN_EJECUCION){
+	      $result = $orden->detener($mecanico, $estadoDetenido);
+	    }else{
+	      $result = $orden->iniciar($mecanico, $estadoEnEjecucion);
+	    }
+	      $mensaje = $result['mensaje'];
+
+	    //Guardar todos los cambios en la base de datos
+    	    $em->flush();
+
+	  }else{
+            $errores = true;
+            $mensaje = 'No se ha cargado la orden con el numero: '.$numeroOrden;
+          }
+
+	}else{
           $errores = true;
           $mensaje = 'No se ha cargado el mecanico con el numero: '.$numeroMecanico;
         }
 
-	//Buscar Orden en base de datos
-	$orden = $this->getDoctrine()
-        ->getRepository('DonCarTallerBundle:Orden')
-        ->findOneByNumero($numeroOrden);
-    	
-	//Comprobar existencia de Orden
-	if (!$orden) {
-	  //TODO: usar mensajes del formulario
-          $errores = true;
-          $mensaje = 'No se ha cargado la orden con el numero: '.$numeroOrden;
-        }
-
-	//Obtener entity manager
-    	$em = $this->getDoctrine()->getManager();
-
-
-	//Obtener estado correspondiente
-	$estadoDetenido = $this->getDoctrine()
-        	->getRepository('DonCarTallerBundle:EstadoOrden')
-		->findOneByNumero(1);
- 
-	$estadoEnEjecucion = $this->getDoctrine()
-        	->getRepository('DonCarTallerBundle:EstadoOrden')
-		->findOneByNumero(2); 
-
-	if ($orden->getEstado()->getNumero() == $orden->EN_EJECUCION){
-	  $result = $orden->detener($mecanico, $estadoDetenido);
-	}else{
-	  $result = $orden->iniciar($mecanico, $estadoEnEjecucion);
-	}
-	  $mensaje = $result['mensaje'];
-
-	//Guardar todos los cambios en la base de datos
-    	$em->flush();
   
   } //Cierra isValid
-} //Cierra el Action
 	
 
         return $this->render('DonCarTallerBundle:Default:gestionOrden.html.twig',
 		array('form' => $form->createView(),'mensaje' => $mensaje));
-}
+} //Cierra el Action
 
 
 

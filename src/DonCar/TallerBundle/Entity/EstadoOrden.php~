@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 */
 
 class EstadoOrden{
+  const DETENIDO = 1;
+  const EN_EJECUCION = 2;
 
 	/**
 	* @ORM\Id
@@ -18,6 +20,11 @@ class EstadoOrden{
 	* @ORM\GeneratedValue(strategy="AUTO")
 	*/
 	protected $id;
+	
+	/**
+	* @ORM\Column(type="integer")
+	*/
+	protected $numero;
 
 	/**
 	* @ORM\Column(type="string", length=100)
@@ -56,5 +63,28 @@ class EstadoOrden{
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     * @return EstadoOrden
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
     }
 }
