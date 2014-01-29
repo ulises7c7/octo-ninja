@@ -1,6 +1,4 @@
-don_car_taller_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: DonCarTallerBundle:Default:index }
+# Mecanico
 
 taller_editar_mecanico:
     pattern:  /mecanico/editar/{id}
@@ -14,6 +12,13 @@ taller_alta_mecanico:
     pattern:  /mecanico/alta
     defaults: { _controller: DonCarTallerBundle:Default:altaMecanico }
 
+taller_eliminar_mecanico:
+    pattern: /mecanico/eliminar/{id}
+    defaults: { _controller: DonCarTallerBundle:Default:eliminarMecanico }
+
+
+#Orden
+
 taller_alta_orden:
     pattern: /orden/alta
     defaults: { _controller: DonCarTallerBundle:Ordenes:altaOrden }
@@ -26,14 +31,20 @@ taller_listar_orden:
     pattern: /orden/listar
     defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrden }
 
+taller_eliminar_orden:
+    pattern: /orden/eliminar/{id}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:eliminarOrden }
+
+
+# Varios
+
 taller_operacion_exitosa:
     pattern: /exito
     defaults: { _controller: DonCarTallerBundle:Default:operacionExitosa }
 
-taller_eliminar_mecanico:
-    pattern: /mecanico/eliminar/{id}
-    defaults: { _controller: DonCarTallerBundle:Default:eliminarMecanico }
-
-taller_eliminar_orden:
-    pattern: /orden/eliminar/{id}
-    defaults: { _controller: DonCarTallerBundle:Ordenes:eliminarOrden }
+taller_root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /taller/orden/gestion
+        permanent: true

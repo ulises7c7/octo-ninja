@@ -36,6 +36,12 @@ class PeriodoTrabajo{
      	*/   
 	protected $orden;
 
+  	/**
+     	* @ORM\ManyToOne(targetEntity="Mecanico", inversedBy="periodosTrabajados")
+     	* @ORM\JoinColumn(name="mecanico_id", referencedColumnName="id")
+     	*/   
+	protected $mecanico;
+
 
 
 

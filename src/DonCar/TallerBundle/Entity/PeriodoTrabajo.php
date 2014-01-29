@@ -36,6 +36,12 @@ class PeriodoTrabajo{
      	*/   
 	protected $orden;
 
+  	/**
+     	* @ORM\ManyToOne(targetEntity="Mecanico", inversedBy="periodosTrabajados")
+     	* @ORM\JoinColumn(name="mecanico_id", referencedColumnName="id")
+     	*/   
+	protected $mecanico;
+
 
 
 
@@ -129,5 +135,28 @@ class PeriodoTrabajo{
     public function getOrden()
     {
         return $this->orden;
+    }
+
+    /**
+     * Set mecanico
+     *
+     * @param \DonCar\TallerBundle\Entity\Mecanico $mecanico
+     * @return PeriodoTrabajo
+     */
+    public function setMecanico(\DonCar\TallerBundle\Entity\Mecanico $mecanico = null)
+    {
+        $this->mecanico = $mecanico;
+
+        return $this;
+    }
+
+    /**
+     * Get mecanico
+     *
+     * @return \DonCar\TallerBundle\Entity\Mecanico 
+     */
+    public function getMecanico()
+    {
+        return $this->mecanico;
     }
 }

@@ -34,6 +34,11 @@ class Mecanico{
 	*/
 	protected $apellido;
 
+	/**
+     	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="mecanico", cascade={"persist", "remove"})
+     	*/
+	protected $periodosTrabajados;
+
 
     /**
      * Get id

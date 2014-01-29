@@ -34,6 +34,11 @@ class Mecanico{
 	*/
 	protected $apellido;
 
+	/**
+     	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="mecanico", cascade={"persist", "remove"})
+     	*/
+	protected $periodosTrabajados;
+
 
     /**
      * Get id
@@ -158,5 +163,45 @@ class Mecanico{
     public function getApellido()
     {
         return $this->apellido;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->periodosTrabajados = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add periodosTrabajados
+     *
+     * @param \DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajados
+     * @return Mecanico
+     */
+    public function addPeriodosTrabajado(\DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajados)
+    {
+        $this->periodosTrabajados[] = $periodosTrabajados;
+
+        return $this;
+    }
+
+    /**
+     * Remove periodosTrabajados
+     *
+     * @param \DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajados
+     */
+    public function removePeriodosTrabajado(\DonCar\TallerBundle\Entity\PeriodoTrabajo $periodosTrabajados)
+    {
+        $this->periodosTrabajados->removeElement($periodosTrabajados);
+    }
+
+    /**
+     * Get periodosTrabajados
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPeriodosTrabajados()
+    {
+        return $this->periodosTrabajados;
     }
 }
