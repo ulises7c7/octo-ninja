@@ -25,7 +25,7 @@ taller_alta_orden:
 
 taller_gestion_orden:
     pattern: /orden/gestion
-    defaults: { _controller: DonCarTallerBundle:Ordenes:gestionOrden }
+    defaults: { _controller: DonCarTallerBundle:Ordenes:gestionarOrden }
 
 taller_listar_orden:
     pattern: /orden/listar

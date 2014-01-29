@@ -26,6 +26,88 @@ public function eliminarOrdenAction($id){
   return $this->render('DonCarTallerBundle:Default:mensaje.html.twig', array('mensaje' => 'Se ha eliminado la orden'));
 }
 
+
+public function gestionarOrdenAction(Request $request){
+    $errores = false;
+    $mensaje = "";   
+    $logger = $this->get('logger');
+    $estado = null;
+
+    $defaultData = array('ordnum' => '0000000');
+    $form = $this->createFormBuilder($defaultData)
+        ->add('numero_mecanico', 'text')
+        ->add('numero_orden', 'text')
+	->add('Acepar','submit')
+        ->getForm();
+ 
+    $form->handleRequest($request);
+ 
+    if ($form->isValid()) {
+        $data = $form->getData();
+
+	$numeroMecanico = $data['numero_mecanico'];
+	$numeroOrden = $data['numero_orden'];
+
+	//Buscar Mecanico en base de datos
+	$mecanico = $this->getDoctrine()
+        ->getRepository('DonCarTallerBundle:Mecanico')
+        ->findOneByNumero($numeroMecanico);
+ 
+	//Comprobar existencia de mecanico
+    	if (!$mecanico) {
+	  //TODO: usar mensajes del formulario
+          $errores = true;
+          $mensaje = 'No se ha cargado el mecanico con el numero: '.$numeroMecanico;
+        }
+
+	//Buscar Orden en base de datos
+	$orden = $this->getDoctrine()
+        ->getRepository('DonCarTallerBundle:Orden')
+        ->findOneByNumero($numeroOrden);
+    	
+	//Comprobar existencia de Orden
+	if (!$orden) {
+	  //TODO: usar mensajes del formulario
+          $errores = true;
+          $mensaje = 'No se ha cargado la orden con el numero: '.$numeroOrden;
+        }
+
+	//Obtener entity manager
+    	$em = $this->getDoctrine()->getManager();
+
+
+	//Obtener estado correspondiente
+	$estadoDetenido = $this->getDoctrine()
+        	->getRepository('DonCarTallerBundle:EstadoOrden')
+		->findOneByNumero(1);
+ 
+	$estadoEnEjecucion = $this->getDoctrine()
+        	->getRepository('DonCarTallerBundle:EstadoOrden')
+		->findOneByNumero(2); 
+
+	if ($orden->getEstado()->getNumero() == $orden->EN_EJECUCION){
+	  $result = $orden->detener($mecanico, $estadoDetenido);
+	}else{
+	  $result = $orden->iniciar($mecanico, $estadoEnEjecucion);
+	}
+	  $mensaje = $result['mensaje'];
+
+	//Guardar todos los cambios en la base de datos
+    	$em->flush();
+  
+  } //Cierra isValid
+} //Cierra el Action
+	
+
+        return $this->render('DonCarTallerBundle:Default:gestionOrden.html.twig',
+		array('form' => $form->createView(),'mensaje' => $mensaje));
+}
+
+
+
+
+
+
 public function gestionOrdenAction(Request $request){
     $logger = $this->get('logger');
     $INICIADO = 1;

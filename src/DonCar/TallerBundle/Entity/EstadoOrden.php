@@ -18,6 +18,11 @@ class EstadoOrden{
 	* @ORM\GeneratedValue(strategy="AUTO")
 	*/
 	protected $id;
+	
+	/**
+	* @ORM\Column(type="integer")
+	*/
+	protected $numero;
 
 	/**
 	* @ORM\Column(type="string", length=100)

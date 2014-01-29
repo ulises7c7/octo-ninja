@@ -14,6 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Orden{
 
+  //TODO: Convertir e variables de clase de la clase EstadoOrden
+  private $DETENIDO = 1;
+  private $EN_EJECUCION = 2;
+
 	/**
 	* @ORM\Id
 	* @ORM\Column(type="integer")
@@ -53,6 +57,68 @@ class Orden{
      	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="orden", cascade={"persist", "remove"})
      	*/
 	protected $periodosTrabajo;
+
+
+public function iniciar($mecanico, $estado_iniciado){
+  if ($this->getEstado()->getNumero() == $DETENIDO){
+	$nuevoTrabajo = new PeriodoTrabajo();
+	$nuevoTrabajo->setMecanico($mecanico);
+	$nuevoTrabajo->setOrden($this);
+	$horaActual = new \DateTime("now");
+	$nuevoTrabajo->setInicio($horaActual);
+	
+	$this->setEstado($estado_iniciado);
+	$this->setMecanico($mecanico);
+	$this->addPeriodosTrabajo($nuevoTrabajo);
+  }else {
+	//TODO: Tratar excepcion
+	$msj = "No se pudo iniciar el trabajo"
+	return  $msj;
+ }
+}
+
+
+public function detener($mecanico, $estado_detenido){
+  $errores = true;
+  $msj = "No se pudo detener el trabajo";
+
+  if($mecanico->getId() != $this->getMecanico()->getId()){
+	//TODO: Tratar excepcion
+	$errores = true;
+	$msj = "No se pudo detener el trabajo porque la orden esta asignada a otro mecanico";
+  }elseif($this->getEstado()-getNumero() == $EN_EJECUCION){
+	
+	//Obtener ultimo trabajo
+	$periodos = $this->getPeriodosTrabajo();
+	$cant = count($periodos);
+	$ultimoTrabajo = $periodosOrden->get($cant -1);
+
+	//Establecer datos ultimo trabajo
+	$horaActual = new \DateTime("now");
+	$ultimoTrabajo->setFin($horaActual);
+	
+	//Estabecer datos de la orden
+	$this->setEstado($estado_detenido);
+	$errores = false;
+	$msj = "La operacion se completo exitosamente";
+
+  }else{
+	//TODO: Tratar excepcion
+	$errores = true;
+	$msj = "No se pudo detener el trabajo porque no esta en ejecucion";
+  }
+  
+  return  array('errores'=> $errores, 'mensaje'=> $msj);
+
+}
+
+private function iniciarDetener($mecanico, $estado){
+
+  if ($this->getEstado()->getNumero()== $DETENIDO){
+	return $this->iniciar($mecanico, $estado);
+  }else
+	return $this->detener($mecanico, $estado);
+}
 
 
 
