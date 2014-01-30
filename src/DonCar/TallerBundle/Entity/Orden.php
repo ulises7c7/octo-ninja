@@ -56,6 +56,8 @@ class Orden{
 
 
 public function iniciar($mecanico, $estado_iniciado){
+  $msj = '';
+  $errores = true;
   if ($this->getEstado()->getNumero() == EstadoOrden::DETENIDO){
 	$nuevoTrabajo = new PeriodoTrabajo();
 	$nuevoTrabajo->setMecanico($mecanico);
@@ -66,11 +68,16 @@ public function iniciar($mecanico, $estado_iniciado){
 	$this->setEstado($estado_iniciado);
 	$this->setMecanico($mecanico);
 	$this->addPeriodosTrabajo($nuevoTrabajo);
+
+	//Setear mensajes caso favorable
+	$errores = false;
+	$msj = "Se ha iniciado el trabajo";
   }else {
-	//TODO: Tratar excepcion
-	$msj = "No se pudo iniciar el trabajo";
-	return  $msj;
+	//Tratar Otro caso
+	$errores = true;
+	$msj = "No se pudo iniciar el trabajo, la orden esta finalizada";
  }
+ return  array('errores'=> $errores, 'mensaje'=> $msj);
 }
 
 
@@ -79,9 +86,10 @@ public function detener($mecanico, $estado_detenido){
   $msj = "No se pudo detener el trabajo";
 
   if($mecanico->getId() != $this->getMecanico()->getId()){
-	//TODO: Tratar excepcion
+	//Tratar caso 'Asignada a otro mecanico'
 	$errores = true;
 	$msj = "No se pudo detener el trabajo porque la orden esta asignada a otro mecanico";
+
   }elseif($this->getEstado()->getNumero() == EstadoOrden::EN_EJECUCION){
 	
 	//Obtener ultimo trabajo
@@ -96,7 +104,7 @@ public function detener($mecanico, $estado_detenido){
 	//Estabecer datos de la orden
 	$this->setEstado($estado_detenido);
 	$errores = false;
-	$msj = "La operacion se completo exitosamente";
+	$msj = "Se detuvo el trabajo";
 
   }else{
 	//TODO: Tratar excepcion

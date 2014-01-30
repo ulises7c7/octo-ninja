@@ -38,6 +38,9 @@ public function gestionarOrdenAction(Request $request){
     $form = $this->createFormBuilder($defaultData)
         ->add('numero_mecanico', 'text')
         ->add('numero_orden', 'text')
+	->add('finalizar', 'checkbox', array(
+    	    'label'     => 'Finalizar orden',
+	    'required'  => false,))
 	->add('Acepar','submit')
         ->getForm();
  
@@ -48,6 +51,7 @@ public function gestionarOrdenAction(Request $request){
 
 	$numeroMecanico = $data['numero_mecanico'];
 	$numeroOrden = $data['numero_orden'];
+	$finalizar = $data['finalizar'];
 
 	//Buscar Mecanico en base de datos
 	$mecanico = $this->getDoctrine()
@@ -76,12 +80,36 @@ public function gestionarOrdenAction(Request $request){
         	->getRepository('DonCarTallerBundle:EstadoOrden')
 		->findOneByNumero(2); 
 
-	    if ($orden->getEstado()->getNumero() == EstadoOrden::EN_EJECUCION){
-	      $result = $orden->detener($mecanico, $estadoDetenido);
+	    $estadoFinalizado = $this->getDoctrine()
+        	->getRepository('DonCarTallerBundle:EstadoOrden')
+		->findOneByNumero(3); 
+
+	    //TODO: refactorizar este desastre de condicionales
+
+	    $estadoActualOrden = $orden->getEstado()->getNumero();
+
+	    if($finalizar && $estado != EstadoOrden::FINALIZADA ){
+	      $result = $orden->detener($mecanico, $estadoFinalizado);
 	    }else{
-	      $result = $orden->iniciar($mecanico, $estadoEnEjecucion);
-	    }
-	      $mensaje = $result['mensaje'];
+
+	      switch ($estadoActualOrden) {
+	        case EstadoOrden::EN_EJECUCION:
+	      	  $result = $orden->detener($mecanico, $estadoDetenido);
+                  break;
+
+                case EstadoOrden::FINALIZADA:
+		  $result['mensaje'] = 'La orden se encuentra finalizada';
+                  break;
+
+                case EstadoOrden::DETENIDO:
+		  $result = $orden->iniciar($mecanico, $estadoEnEjecucion);
+                  break;
+              }
+
+
+            }
+
+	    $mensaje = $result['mensaje'];
 
 	    //Guardar todos los cambios en la base de datos
     	    $em->flush();

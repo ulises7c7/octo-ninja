@@ -8,7 +8,7 @@ use DonCar\TallerBundle\Entity\PeriodoTrabajo;
 use DonCar\TallerBundle\Entity\Mecanico;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class MecanicoController extends Controller
 {
 
 
@@ -16,7 +16,6 @@ public function indexAction($name){
   return $this->render('DonCarTallerBundle:Default:index.html.twig', array('name' => $name));
 }
 
-/*
 public function eliminarMecanicoAction($id){
 
   $mecanico = $this->getDoctrine()
@@ -30,11 +29,13 @@ public function eliminarMecanicoAction($id){
 
   return $this->render('DonCarTallerBundle:Default:mensaje.html.twig', array('mensaje' => 'Se ha eliminado el mecanico.'));
 }
-*/
 
-/*
-public function editarMecanicoAction(Request $request){
-  $mecanico = new Mecanico();
+
+
+public function editarMecanicoAction(Request $request, $id){
+  $mecanico = $this->getDoctrine()
+        ->getRepository('DonCarTallerBundle:Mecanico')
+        ->find($id); 
   $form = $this->createForm(new MecanicoType(), $mecanico);
   $form->handleRequest($request);
 
@@ -47,10 +48,10 @@ public function editarMecanicoAction(Request $request){
   }
 
   return $this->render('DonCarTallerBundle:Default:altaMecanico.html.twig', array('form' => $form->createView(),)); 
-}
-*/
+} //Fin editar mecanico
 
-/*
+
+
 public function altaMecanicoAction(Request $request){
   $mecanico = new Mecanico();
   $form = $this->createForm(new MecanicoType(), $mecanico);
@@ -66,9 +67,7 @@ public function altaMecanicoAction(Request $request){
 
   return $this->render('DonCarTallerBundle:Default:altaMecanico.html.twig', array('form' => $form->createView(),)); 
 }
-*/
 
-/*
 public function listarMecanicoAction(){
 	$mecanicos = $this->getDoctrine()
         ->getRepository('DonCarTallerBundle:Mecanico')
@@ -79,7 +78,7 @@ public function listarMecanicoAction(){
 
 	return $this->render('DonCarTallerBundle:Default:listarMecanico.html.twig',$params);
 }
-*/
+
 
 
 

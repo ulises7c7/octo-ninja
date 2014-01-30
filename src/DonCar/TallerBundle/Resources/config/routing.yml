@@ -2,19 +2,19 @@
 
 taller_editar_mecanico:
     pattern:  /mecanico/editar/{id}
-    defaults: { _controller: DonCarTallerBundle:Default:editarMecanico }
+    defaults: { _controller: DonCarTallerBundle:Mecanico:editarMecanico }
 
 taller_listar_mecanico:
     pattern:  /mecanico/listar
-    defaults: { _controller: DonCarTallerBundle:Default:listarMecanico }
+    defaults: { _controller: DonCarTallerBundle:Mecanico:listarMecanico }
 
 taller_alta_mecanico:
     pattern:  /mecanico/alta
-    defaults: { _controller: DonCarTallerBundle:Default:altaMecanico }
+    defaults: { _controller: DonCarTallerBundle:Mecanico:altaMecanico }
 
 taller_eliminar_mecanico:
     pattern: /mecanico/eliminar/{id}
-    defaults: { _controller: DonCarTallerBundle:Default:eliminarMecanico }
+    defaults: { _controller: DonCarTallerBundle:Mecanico:eliminarMecanico }
 
 
 #Orden
