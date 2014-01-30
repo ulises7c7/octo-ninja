@@ -23,7 +23,7 @@
               </span>
            </button>
 
-            <button onClick="confe( {{ mecanico.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+            <button onClick="confedit( {{ mecanico.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
               <span class="ui-icon ui-icon-pencil" > 
               </span>
            </button>
@@ -49,6 +49,9 @@
     }
   };
 
+  function confedit(orden){
+   window.location.href = "{{ path('taller_editar_mecanico', {'id' :' ' ,})  }}"+orden;
+  };
 
 function httpGet(theUrl){
     var xmlHttp = null;
