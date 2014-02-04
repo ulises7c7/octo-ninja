@@ -8,23 +8,32 @@
 
   <h1 class="title">Alta orden</h1>
 
-
-{{ form_start(form) }}
+{{ form_start(form, { 'attr': {'class' : 'pure-form pure-form-aligned'}}) }}
+  <fieldset>
     {{ form_errors(form) }}
  
-    {{ form_row(form.numero) }}
-    {{ form_row(form.tiempo) }}
+ <div class="pure-control-group">
+    {{ form_row(form.numero, {'attr':{'placeholder':'Numero'}}) }}
+ </div>
+
+ <div class="pure-control-group">
+    {{ form_row(form.tiempo, {'attr':{'placeholder':'Tiempo'}}) }}
+ </div>
+
+ <div class="pure-control-group">
     {{ form_row(form.mecanico) }}
+ </div>
+
+    {{ form_rest(form) }}
+
+ <div class="pure-controls">
  
     {{ form_rest(form) }}
+    <button type="submit" class="pure-button pure-button-primary">Aceptar</button>
+</div>
+
  
-    <button type="submit" class="sf-button">
-      <span class="border-l">
-        <span class="border-r">
-          <span class="btn-bg">OK</span>
-        </span>
-      </span>
-    </button>
+  </fieldset>
 {{ form_end(form) }}
 
 

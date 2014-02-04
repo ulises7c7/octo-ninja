@@ -6,12 +6,18 @@
 
 {% block content %}
   <h1 class="title">Mecanicos</h1>
-    <table class="tablas" >
-      <tr>
-          <td>Numero</td>
-          <td>Nombre</td>
-          <td>Acciones</td>
-      </tr>
+    <table class="pure-table" >
+
+ <thead>
+        <tr>
+            <th>#</th>
+          <th>Nombre</th>
+          <th>Acciones</th>
+        </tr>
+    </thead>
+
+<tbody>
+
       {% for mecanico in mecanicos %}
       <tr>
           <td>{{ mecanico.numero }} </td>
@@ -31,10 +37,10 @@
           </td>
       </tr>
       {% endfor %}
-
+</tbody>
   </table>
 <br/>
-<a href="{{ path( 'taller_alta_mecanico') }}">Cargar nuevo mecanico</a>
+<a class="pure-button pure-button-primary" href="{{ path( 'taller_alta_mecanico') }}">Cargar nuevo mecanico</a>
 
 {% endblock %}
 

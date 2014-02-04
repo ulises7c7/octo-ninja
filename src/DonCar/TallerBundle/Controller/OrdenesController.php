@@ -41,7 +41,7 @@ public function gestionarOrdenAction(Request $request){
 	->add('finalizar', 'checkbox', array(
     	    'label'     => 'Finalizar orden',
 	    'required'  => false,))
-	->add('Acepar','submit')
+//	->add('Acepar','submit')
         ->getForm();
  
     $form->handleRequest($request);

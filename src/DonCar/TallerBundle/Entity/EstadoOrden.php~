@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EstadoOrden{
   const DETENIDO = 1;
   const EN_EJECUCION = 2;
+  const FINALIZADA = 3;
 
 	/**
 	* @ORM\Id

@@ -6,35 +6,45 @@
 
 {% block content %}
   <h1 class="title">Ordenes</h1>
-    <table class="tablas" >
-      <tr>
-          <td>Numero</td>
-          <td>Estado</td>
-          <td>Mecanico</td>
-          <td>Tiempo (UT)</td>
-          <td>Trabajos efectuados</td>
-          <td>Tiempo total</td>
-      </tr>
+    <table class="pure-table" >
+
+ <thead>
+        <tr>
+          <th>#</th>
+          <th>Estado</th>
+          <th>Mecanico</th>
+          <th>Tiempo (UT)</th>
+          <th>Trabajos efectuados</th>
+          <th>Tiempo total</th>
+          <th>Acciones</th>
+        </tr>
+    </thead>
+
+<tbody>
+    
+
+
       {% for orden in ordenes %}
       <tr>
           <td>
-            <button onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
-              <span class="ui-icon ui-icon-trash" > 
-              </span> Eliminar
-           </button>
- {{ orden.numero }}</td>
+            {{ orden.numero }}</td>
           <td>{{ orden.estado.nombre }}</td>
           <td>{{ orden.mecanico.numero }} ({{ orden.mecanico.apellido  }}, {{ orden.mecanico.nombre }}) </td>
           <td>{{ orden.tiempo }}</td>
           <td>{{ orden.periodosTrabajo|length }}</td>
           <td>    		{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}
           </td>
+	  <td> <button onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+              <span class="ui-icon ui-icon-trash" > 
+              </span> Eliminar
+           </button>
+ </td>
       </tr>
       {% endfor %}
-
+</tbody>
   </table>
 <br/>
-<a href="{{ path( 'taller_alta_orden') }}">Cargar nueva orden</a>
+<a class="pure-button  pure-button-primary" href="{{ path( 'taller_alta_orden') }}">Cargar nueva orden</a>
 
 {% endblock %}
 

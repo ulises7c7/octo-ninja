@@ -2,13 +2,11 @@
 
 
 {% block stylesheets %}
- <link href="{{ asset('bundles/doncartaller/css/body.css') }}" type="text/css" rel="stylesheet" />
- <link href="{{ asset('bundles/doncartaller/css/general.css') }}" type="text/css" rel="stylesheet" />
  <link href="{{ asset('bundles/doncartaller/css/structure.css') }}" type="text/css" rel="stylesheet" />
  <link href="{{ asset('bundles/doncartaller/css/custom.css') }}" type="text/css" rel="stylesheet" />
  <link href="{{ asset('bundles/doncartaller/css/pure-min.css') }}" type="text/css" rel="stylesheet" />
- <link href="{{ asset('bundles/doncartaller/css/jquery-1.9.1.js') }}" type="text/css"  rel="stylesheet" >
- <link href="{{ asset('bundles/doncartaller/css/jquery-ui.js') }}" type="text/css"  rel="stylesheet" >
+<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/base-min.css">
+
 
 
 {% endblock %}
@@ -17,7 +15,7 @@
 {% block title 'DonCar Taller' %}
 
 {% block body %}
-<div id="content">
+<div id="content" class="yui3-normalized"  >
   <div class="header clear-fix">
     <div class="header-logo">
         <img  src="{{ asset('bundles/doncartaller/images/dc_logo_small.png') }}" alt="VW Logo"/>
@@ -32,11 +30,26 @@
   <div class="sf-reset">
 
     <div class="block">
+
+
+
+<!--
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
     <ul>
-      <li><a href="{{ path( 'taller_listar_orden') }}">Ordenes</a></li>
-      <li><a href="{{ path( 'taller_listar_mecanico') }}">Mecanicos</a></li>
-      <li><a href="{{ path( 'taller_gestion_orden') }}">Iniciar/Detener Trabajo</a></li>
+        <li><a href="{{ path( 'taller_listar_orden') }}">Ordenes</a></li>
+        <li><a href="{{ path( 'taller_listar_mecanico') }}">Mecanicos</a></li>
+        <li><a  href="{{ path( 'taller_gestion_orden') }}"  >Iniciar/Detener Trabajo</a></li>
     </ul>
+</div>
+
+-->
+
+
+      <a class="pure-button" href="{{ path( 'taller_listar_orden') }}">Ordenes</a>
+      <a class="pure-button" href="{{ path( 'taller_listar_mecanico') }}">Mecanicos</a>
+      <a class="pure-button" href="{{ path( 'taller_gestion_orden') }}">Iniciar/Detener Trabajo</a>
+
+
  
       {% block content %}
       {% endblock %}  
@@ -44,5 +57,29 @@
     </div>
   </div>
 </div>
+
+
+
+<script>
+YUI({
+    classNamePrefix: 'pure'
+}).use('gallery-sm-menu', function (Y) {
+
+    var horizontalMenu = new Y.Menu({
+        container         : '#demo-horizontal-menu',
+        sourceNode        : '#std-menu-items',
+        orientation       : 'horizontal',
+        hideOnOutsideClick: false,
+        hideOnClick       : false
+    });
+
+    horizontalMenu.render();
+    horizontalMenu.show();
+
+});
+</script>
+
+
+
 
 {% endblock %}

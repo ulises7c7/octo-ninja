@@ -9,22 +9,45 @@
   <h1 class="title">Alta mecanico</h1>
 
 
-{{ form_start(form) }}
+
+
+
+
+
+
+
+
+ 
+ 
+
+
+{{ form_start(form, { 'attr': {'class' : 'pure-form pure-form-aligned'}}) }}
+  <fieldset>
     {{ form_errors(form) }}
  
-    {{ form_row(form.nombre) }}
-    {{ form_row(form.apellido) }}
-    {{ form_row(form.numero) }}
+ <div class="pure-control-group">
+    {{ form_row(form.nombre, {'attr':{'placeholder':'Nombre'}}) }}
+ </div>
+
+ <div class="pure-control-group">
+    {{ form_row(form.apellido, {'attr':{'placeholder':'Apellido'}}) }}
+ </div>
+
+ <div class="pure-control-group">
+    {{ form_row(form.numero, {'attr':{'placeholder':'Numero'}}) }}
+ </div>
+
  
     {{ form_rest(form) }}
  
-    <button type="submit" class="sf-button">
-      <span class="border-l">
-        <span class="border-r">
-          <span class="btn-bg">OK</span>
-        </span>
-      </span>
-    </button>
+
+<div class="pure-controls">
+ 
+    {{ form_rest(form) }}
+    <button type="submit" class="pure-button pure-button-primary">Aceptar</button>
+</div>
+ 
+  </fieldset>
 {{ form_end(form) }}
 
 
