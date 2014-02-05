@@ -17,17 +17,25 @@ public function indexAction($name){
 }
 
 public function eliminarMecanicoAction($id){
-
+  $msj = '';
+  //Obtener mecanico
   $mecanico = $this->getDoctrine()
         ->getRepository('DonCarTallerBundle:Mecanico')
         ->find($id); 
   //Obtener entity manager
   $em = $this->getDoctrine()->getManager();
+  
+  $ordenesMecanico = $mecanico->getOrdenesAsignadas();
+  $trabajosMecanico = $mecanico->getPeriodosTrabajados();
+  if(count($ordenesMecanico) + count($trabajosMecanico) == 0){
+    $em->remove($mecanico);
+    $em->flush();
 
-  $em->remove($mecanico);
-  $em->flush();
-
-  return $this->render('DonCarTallerBundle:Default:mensaje.html.twig', array('mensaje' => 'Se ha eliminado el mecanico.'));
+    $msj='Se ha eliminado el mecanico';
+  }else{
+    $msj='No se puede eliminar el mecanico. El mecanico posee ordenes asignadas o trabajos realizados.';
+  }
+  return $this->render('DonCarTallerBundle:Default:mensaje.html.twig', array('mensaje' => $msj));
 }
 
 

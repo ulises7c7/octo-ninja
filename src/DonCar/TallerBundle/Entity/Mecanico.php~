@@ -35,6 +35,11 @@ class Mecanico{
 	protected $apellido;
 
 	/**
+     	* @ORM\OneToMany(targetEntity="Orden", mappedBy="mecanico", cascade={"persist", "remove"})
+     	*/
+	protected $ordenesAsignadas;
+
+	/**
      	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="mecanico", cascade={"persist", "remove"})
      	*/
 	protected $periodosTrabajados;

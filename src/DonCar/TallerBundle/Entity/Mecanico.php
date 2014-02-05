@@ -35,6 +35,11 @@ class Mecanico{
 	protected $apellido;
 
 	/**
+     	* @ORM\OneToMany(targetEntity="Orden", mappedBy="mecanico", cascade={"persist", "remove"})
+     	*/
+	protected $ordenesAsignadas;
+
+	/**
      	* @ORM\OneToMany(targetEntity="PeriodoTrabajo", mappedBy="mecanico", cascade={"persist", "remove"})
      	*/
 	protected $periodosTrabajados;
@@ -203,5 +208,38 @@ class Mecanico{
     public function getPeriodosTrabajados()
     {
         return $this->periodosTrabajados;
+    }
+
+    /**
+     * Add ordenesAsignadas
+     *
+     * @param \DonCar\TallerBundle\Entity\Orden $ordenesAsignadas
+     * @return Mecanico
+     */
+    public function addOrdenesAsignada(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
+    {
+        $this->ordenesAsignadas[] = $ordenesAsignadas;
+
+        return $this;
+    }
+
+    /**
+     * Remove ordenesAsignadas
+     *
+     * @param \DonCar\TallerBundle\Entity\Orden $ordenesAsignadas
+     */
+    public function removeOrdenesAsignada(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
+    {
+        $this->ordenesAsignadas->removeElement($ordenesAsignadas);
+    }
+
+    /**
+     * Get ordenesAsignadas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrdenesAsignadas()
+    {
+        return $this->ordenesAsignadas;
     }
 }

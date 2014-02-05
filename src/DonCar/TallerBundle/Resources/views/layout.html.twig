@@ -5,8 +5,11 @@
  <link href="{{ asset('bundles/doncartaller/css/structure.css') }}" type="text/css" rel="stylesheet" />
  <link href="{{ asset('bundles/doncartaller/css/custom.css') }}" type="text/css" rel="stylesheet" />
  <link href="{{ asset('bundles/doncartaller/css/pure-min.css') }}" type="text/css" rel="stylesheet" />
-<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/base-min.css">
+ 
+<link href="{{ asset('bundles/doncartaller/jquery-ui/css/smoothness/jquery-ui-1.10.4.custom.min.css') }}" type="text/css" rel="stylesheet" />
 
+ <script src="{{ asset('bundles/doncartaller/jquery-ui/js/jquery-1.10.2.js') }}" ></script>
+ <script src="{{ asset('bundles/doncartaller/jquery-ui/js/jquery-ui-1.10.4.custom.js') }}" ></script>
 
 
 {% endblock %}
@@ -15,7 +18,7 @@
 {% block title 'DonCar Taller' %}
 
 {% block body %}
-<div id="content" class="yui3-normalized"  >
+<div id="content"  >
   <div class="header clear-fix">
     <div class="header-logo">
         <img  src="{{ asset('bundles/doncartaller/images/dc_logo_small.png') }}" alt="VW Logo"/>
