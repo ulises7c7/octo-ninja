@@ -79,7 +79,7 @@ public function altaMecanicoAction(Request $request){
 public function listarMecanicoAction(){
 	$mecanicos = $this->getDoctrine()
         ->getRepository('DonCarTallerBundle:Mecanico')
-        ->findAll();
+        ->findBy(array(),array('numero' => 'ASC'));
 	
 	$params = array(
 	 'mecanicos' => $mecanicos,);	

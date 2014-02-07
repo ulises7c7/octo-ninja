@@ -281,7 +281,7 @@ public function gestionOrdenAction(Request $request){
 public function listarOrdenAction(){
 	$ordenes = $this->getDoctrine()
         ->getRepository('DonCarTallerBundle:Orden')
-        ->findAll();
+        ->findBy(array(),array('numero' => 'ASC'));
 	
 	$params = array(
 	 'ordenes' => $ordenes,);	

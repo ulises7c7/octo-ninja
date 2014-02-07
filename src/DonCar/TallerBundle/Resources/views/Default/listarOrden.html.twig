@@ -34,7 +34,7 @@
           <td>{{ orden.periodosTrabajo|length }}</td>
           <td>    		{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}
           </td>
-	  <td> <button title="Eliminar" onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+	  <td> <button class="pure-button" title="Eliminar" onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
               <span class="ui-icon ui-icon-trash" > 
               </span>
            </button>
