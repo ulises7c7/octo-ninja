@@ -209,4 +209,37 @@ class Mecanico{
     {
         return $this->periodosTrabajados;
     }
+
+    /**
+     * Add ordenesAsignadas
+     *
+     * @param \DonCar\TallerBundle\Entity\Orden $ordenesAsignadas
+     * @return Mecanico
+     */
+    public function addOrdenesAsignada(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
+    {
+        $this->ordenesAsignadas[] = $ordenesAsignadas;
+
+        return $this;
+    }
+
+    /**
+     * Remove ordenesAsignadas
+     *
+     * @param \DonCar\TallerBundle\Entity\Orden $ordenesAsignadas
+     */
+    public function removeOrdenesAsignada(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
+    {
+        $this->ordenesAsignadas->removeElement($ordenesAsignadas);
+    }
+
+    /**
+     * Get ordenesAsignadas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrdenesAsignadas()
+    {
+        return $this->ordenesAsignadas;
+    }
 }

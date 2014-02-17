@@ -5,10 +5,12 @@ namespace DonCar\TallerBundle\Entity;
 use \DateTime;
 use \DateInterval;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="ordenes")
  * @ORM\Entity
+ * @UniqueEntity(fields="numero", message="La orden ya esta cargada")
  *
 */
 
@@ -22,7 +24,7 @@ class Orden{
 	protected $id;
 
   	/**
-	* @ORM\Column(type="string", length=100)
+	* @ORM\Column(type="string", length=100, unique=true)
 	*/
 	protected $numero;
 
