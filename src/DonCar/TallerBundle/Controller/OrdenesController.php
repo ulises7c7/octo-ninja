@@ -10,6 +10,7 @@ use DonCar\TallerBundle\Entity\Mecanico;
 use DonCar\TallerBundle\Entity\EstadoOrden;
 use DonCar\TallerBundle\Entity\Orden;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class OrdenesController extends Controller{
 
@@ -275,6 +276,30 @@ public function gestionOrdenAction(Request $request){
 	
 
         return $this->render('DonCarTallerBundle:Default:gestionOrden.html.twig',array('form' => $form->createView(),'mensaje' => $msj));
+}
+
+
+public function listarOrdenPaginadaAction($pagina){
+
+  $em = $this->getDoctrine()->getManager();
+  $pageSize = 20;
+  $query = $em->createQuery('SELECT p FROM DonCarTallerBundle:Orden p ORDER BY p.numero DESC');
+//              ->setFirstResult(($pagina - 1)*$pageSize)
+//              ->setMaxResults($pageSize);
+
+  $paginator = new Paginator($query);
+
+  $cantItem = count($paginator);
+  $cantPag = ceil($cantItem / $pageSize);
+  
+  
+  $paginator
+    ->getQuery()
+    ->setFirstResult($pageSize * ($pagina-1)) // set the offset
+    ->setMaxResults($pageSize); // set the limit
+
+  $params = array('ordenes' => $paginator,'paginas' => $cantPag,);	
+  return $this->render('DonCarTallerBundle:Default:listarOrden.html.twig',$params);
 }
 
 

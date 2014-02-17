@@ -5,8 +5,12 @@
 
 
 {% block content %}
-  <h1 class="title">Ordenes</h1>
+  <h1 class="title">Ordenes </h1>
     <table class="pure-table" >
+<span style="font-size: 12px; margin-left: 50px;">
+  Paginas: {% for i in 1 .. paginas %}
+              - <a href="{{ path('taller_listar_orden_paginada', {'pagina' : i}) }}">{{ i }}</a>  
+           {% endfor %}</span> (Ordenes mas recientes en primero)  <br/><br/>
 
  <thead>
         <tr>
