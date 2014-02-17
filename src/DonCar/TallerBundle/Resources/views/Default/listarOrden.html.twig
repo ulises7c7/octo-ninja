@@ -38,10 +38,21 @@
           <td>{{ orden.periodosTrabajo|length }}</td>
           <td>    		{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}
           </td>
-	  <td> <button class="pure-button" title="Eliminar" onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+	  <td> 
+
+	   <button class="pure-button" title="Eliminar" onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
               <span class="ui-icon ui-icon-trash" > 
               </span>
            </button>
+
+            <button class="pure-button" title="Editar" 
+                    onClick="window.location.href='{{ path( 'taller_editar_orden', {'id' : orden.id} ) }}';" 
+                    style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+              <span class="ui-icon ui-icon-pencil" > 
+              </span>
+           </button>
+	
+
  </td>
       </tr>
       {% endfor %}

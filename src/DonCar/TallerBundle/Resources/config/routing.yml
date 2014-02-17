@@ -23,6 +23,10 @@ taller_alta_orden:
     pattern: /orden/alta
     defaults: { _controller: DonCarTallerBundle:Ordenes:altaOrden }
 
+taller_editar_orden:
+    pattern: /orden/editar/{id}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:editarOrden }
+
 taller_gestion_orden:
     pattern: /orden/gestion
     defaults: { _controller: DonCarTallerBundle:Ordenes:gestionarOrden }

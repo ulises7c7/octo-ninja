@@ -315,6 +315,25 @@ public function listarOrdenAction(){
 }
 
 
+
+
+public function editarOrdenAction(Request $request, $id){
+  $orden = $this->getDoctrine()
+                ->getRepository('DonCarTallerBundle:Orden')
+                ->find($id); 
+  $form = $this->createForm(new OrdenType(), $orden);
+  $form->handleRequest($request);
+  if ($form->isValid()) {
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($orden);
+    $em->flush();
+    return $this->redirect($this->generateUrl('taller_listar_orden'));
+  }
+  return $this->render('DonCarTallerBundle:Default:altaOrden.html.twig', 
+			array('form' => $form->createView(),)); 
+} //Fin editar orden
+
+
 public function altaOrdenAction(Request $request){
   $orden = new Orden();
   $form = $this->createForm(new OrdenType(), $orden);
