@@ -15,6 +15,7 @@
  <thead>
         <tr>
           <th>#</th>
+          <th>Fecha</th>
           <th>Estado</th>
           <th>Mecanico</th>
           <th>Tiempo (UT)</th>
@@ -32,6 +33,7 @@
       <tr>
           <td>
             {{ orden.numero }}</td>
+          <td>{{ orden.fechaAlta|date('d/m/y') }}</td>
           <td>{{ orden.estado.nombre }}</td>
           <td>{{ orden.mecanico.numero }} ({{ orden.mecanico.apellido  }}, {{ orden.mecanico.nombre }}) </td>
           <td>{{ orden.tiempo }}</td>

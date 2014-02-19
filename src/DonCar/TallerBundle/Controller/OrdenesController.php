@@ -344,6 +344,10 @@ public function altaOrdenAction(Request $request){
         ->getRepository('DonCarTallerBundle:EstadoOrden')
         ->find(1); 
     $orden->setEstado($estado_objeto);
+
+    //Obtener hora actual	
+    $horaActual = new \DateTime("now");
+    $orden->setFechaAlta($horaActual);
  
     $em = $this->getDoctrine()->getManager();
     $em->persist($orden);

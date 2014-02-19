@@ -28,6 +28,11 @@ class Orden{
 	*/
 	protected $numero;
 
+	/**
+	* @ORM\Column(type="datetime",  nullable=true)
+	*/
+	protected $fechaAlta;
+
   	/**
 	* @ORM\Column(type="integer")
 	*/

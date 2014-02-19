@@ -28,6 +28,11 @@ class Orden{
 	*/
 	protected $numero;
 
+	/**
+	* @ORM\Column(type="datetime",  nullable=true)
+	*/
+	protected $fechaAlta;
+
   	/**
 	* @ORM\Column(type="integer")
 	*/
@@ -279,5 +284,28 @@ private function iniciarDetener($mecanico, $estado){
     public function getEstado()
     {
         return $this->estado;
+    }
+
+    /**
+     * Set fechaAlta
+     *
+     * @param \DateTime $fechaAlta
+     * @return Orden
+     */
+    public function setFechaAlta($fechaAlta)
+    {
+        $this->fechaAlta = $fechaAlta;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaAlta
+     *
+     * @return \DateTime 
+     */
+    public function getFechaAlta()
+    {
+        return $this->fechaAlta;
     }
 }
