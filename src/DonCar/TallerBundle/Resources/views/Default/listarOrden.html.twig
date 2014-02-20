@@ -5,63 +5,73 @@
 
 
 {% block content %}
-  <h1 class="title">Ordenes </h1>
-    <table class="pure-table" >
-<span style="font-size: 12px; margin-left: 50px;">
-  Paginas: {% for i in 1 .. paginas %}
-              - <a href="{{ path('taller_listar_orden_paginada', {'pagina' : i}) }}">{{ i }}</a>  
-           {% endfor %}</span> (Ordenes mas recientes primero)  <br/><br/>
 
- <thead>
-        <tr>
-          <th>#</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-          <th>Mecanico</th>
-          <th>Tiempo (UT)</th>
-          <th>Trabajos efectuados</th>
-          <th>Tiempo total</th>
-          <th>Acciones</th>
-        </tr>
+  <h1 class="title">Ordenes </h1>
+
+  {{ form_start(form, { 'attr': {'class' : 'pure-form'}}) }}
+    <fieldset>
+      {{ form_errors(form) }}
+
+      {{ form_label(form.fecha, 'Buscar por fecha') }}
+      {{ form_widget(form.fecha) }}
+
+      <button type="submit" class="pure-button pure-button-primary">Buscar</button>
+      
+      {{ form_rest(form) }}
+    </fieldset>
+  {{ form_end(form) }}
+
+  <br/>
+
+  <table class="pure-table" >
+
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Mecanico</th>
+        <th>Tiempo (UT)</th>
+        <th>Trabajos efectuados</th>
+        <th>Tiempo total</th>
+        <th>Acciones</th>
+      </tr>
     </thead>
 
-<tbody>
-    
-
-
+    <tbody>
       {% for orden in ordenes %}
-      <tr>
+        <tr>
           <td>
-            {{ orden.numero }}</td>
+            {{ orden.numero }}
+          </td>
           <td>{{ orden.fechaAlta|date('d/m/y') }}</td>
           <td>{{ orden.estado.nombre }}</td>
           <td>{{ orden.mecanico.numero }} ({{ orden.mecanico.apellido  }}, {{ orden.mecanico.nombre }}) </td>
           <td>{{ orden.tiempo }}</td>
           <td>{{ orden.periodosTrabajo|length }}</td>
-          <td>    		{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}
-          </td>
-	  <td> 
-
-	   <button class="pure-button" title="Eliminar" onClick="confe( {{ orden.id }} );" style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
-              <span class="ui-icon ui-icon-trash" > 
-              </span>
+          <td>{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}</td>
+          <td> 
+            <button class="pure-button" 
+                    title="Eliminar" 
+                    onClick="confe( {{ orden.id }} );" 
+                    style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
+              <span class="ui-icon ui-icon-trash" ></span>
            </button>
 
-            <button class="pure-button" title="Editar" 
+            <button class="pure-button" 
+                    title="Editar" 
                     onClick="window.location.href='{{ path( 'taller_editar_orden', {'id' : orden.id} ) }}';" 
                     style="float:left; padding: 0 0 0 0 ; margin-right:2px;2px; " >
-              <span class="ui-icon ui-icon-pencil" > 
-              </span>
-           </button>
-	
-
- </td>
-      </tr>
+              <span class="ui-icon ui-icon-pencil" ></span>
+            </button>
+          </td>
+        </tr>
       {% endfor %}
-</tbody>
+    </tbody>
   </table>
-<br/>
-<a class="pure-button  pure-button-primary" href="{{ path( 'taller_alta_orden') }}">Cargar nueva orden</a>
+
+  <br/>
+  <a class="pure-button  pure-button-primary" href="{{ path( 'taller_alta_orden') }}">Cargar nueva orden</a>
 
 {% endblock %}
 

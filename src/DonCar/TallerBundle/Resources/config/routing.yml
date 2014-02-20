@@ -32,15 +32,8 @@ taller_gestion_orden:
     defaults: { _controller: DonCarTallerBundle:Ordenes:gestionarOrden }
 
 taller_listar_orden_paginada:
-    pattern: /orden/listar/pag_{pagina}
-    defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrdenPaginada }
-
-taller_listar_orden:
     pattern: /orden/listar
-    defaults: 
-        _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /taller/orden/listar/pag_1
-        permanent: true
+    defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrden }
 
 taller_eliminar_orden:
     pattern: /orden/eliminar/{id}

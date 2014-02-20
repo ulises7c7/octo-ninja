@@ -11,6 +11,7 @@ use DonCar\TallerBundle\Entity\EstadoOrden;
 use DonCar\TallerBundle\Entity\Orden;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use DateInterval;
 
 class OrdenesController extends Controller{
 
@@ -284,14 +285,11 @@ public function listarOrdenPaginadaAction($pagina){
   $em = $this->getDoctrine()->getManager();
   $pageSize = 20;
   $query = $em->createQuery('SELECT p FROM DonCarTallerBundle:Orden p ORDER BY p.numero DESC');
-//              ->setFirstResult(($pagina - 1)*$pageSize)
-//              ->setMaxResults($pageSize);
 
   $paginator = new Paginator($query);
 
   $cantItem = count($paginator);
   $cantPag = ceil($cantItem / $pageSize);
-  
   
   $paginator
     ->getQuery()
@@ -303,6 +301,44 @@ public function listarOrdenPaginadaAction($pagina){
 }
 
 
+public function listarOrdenAction(Request $request){
+  //Obtener parametros de filtro por fecha
+  $em = $this->getDoctrine()->getManager();
+
+  $form = $this ->createFormBuilder()
+              ->add('fecha', 'date', array(
+                    'input'  => 'datetime',
+                    'widget' => 'choice',
+                    'data' => new \DateTime("now"),
+                    'format' => 'dd / MM / yyyy' ))
+              ->getForm();
+
+  $form->handleRequest($request);
+
+  $fechaInicio = new \DateTime("now");  
+  $fechaFin = new \DateTime("now");  
+  $fechaFin->add(new DateInterval('P1D'));
+
+  if ($form->isValid()) {
+    $data = $form->getData();
+    $fechaInicio = $data['fecha'];
+    $fechaFin = clone $fechaInicio;  
+    $fechaFin->add(new DateInterval('P1D'));
+  }
+  
+  $query = $em->createQuery('SELECT o FROM DonCarTallerBundle:Orden o WHERE o.fechaAlta < :fechaFin AND o.fechaAlta > :fechaInicio ORDER BY o.numero DESC' );
+  $query->setParameter('fechaFin', $fechaFin);
+  $query->setParameter('fechaInicio', $fechaInicio);
+
+  $ordenes = $query->getResult();
+
+  $params = array('ordenes' => $ordenes,'form' => $form->createView(),); 
+
+  return $this->render('DonCarTallerBundle:Default:listarOrden.html.twig',$params);
+
+}
+
+/* Se usaba para listar todas las ordenes sin filtrar
 public function listarOrdenAction(){
 	$ordenes = $this->getDoctrine()
         ->getRepository('DonCarTallerBundle:Orden')
@@ -313,7 +349,7 @@ public function listarOrdenAction(){
 
 	return $this->render('DonCarTallerBundle:Default:listarOrden.html.twig',$params);
 }
-
+*/
 
 
 
