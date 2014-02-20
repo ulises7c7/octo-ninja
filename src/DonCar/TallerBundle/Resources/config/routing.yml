@@ -31,7 +31,7 @@ taller_gestion_orden:
     pattern: /orden/gestion
     defaults: { _controller: DonCarTallerBundle:Ordenes:gestionarOrden }
 
-taller_listar_orden_paginada:
+taller_listar_orden:
     pattern: /orden/listar
     defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrden }
 
