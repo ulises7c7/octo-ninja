@@ -285,4 +285,27 @@ private function iniciarDetener($mecanico, $estado){
     {
         return $this->estado;
     }
+
+    /**
+     * Set fechaAlta
+     *
+     * @param \DateTime $fechaAlta
+     * @return Orden
+     */
+    public function setFechaAlta($fechaAlta)
+    {
+        $this->fechaAlta = $fechaAlta;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaAlta
+     *
+     * @return \DateTime 
+     */
+    public function getFechaAlta()
+    {
+        return $this->fechaAlta;
+    }
 }
