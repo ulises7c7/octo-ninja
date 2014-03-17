@@ -1,0 +1,148 @@
+	<h2> Mis Ordenes </h2>
+
+  Mecanico: <b>{{ mecanico.apellido }}, {{ mecanico.nombre }}</b> </br>
+
+
+   <table class="pure-table" >
+
+    <thead>
+      <tr style="text-align: center; vertical-align: middle;">
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Tiempo<br>(UT)</th>
+        <th>Trabajos<br/>efectuados</th>
+        <th>Tiempo<br/>Trabajado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for orden in ordenes %}
+        <tr {% if orden.estado.numero == 2 %} bgcolor="#EEeefe" style=" font-weight: bold;" {% endif %} >
+          <td  >
+            {{ orden.numero }}
+          </td>
+          <td>{{ orden.fechaAlta|date('d/m/y') }}</td>
+          <td>{{ orden.estado.nombre }}</td>
+          <td>{{ orden.tiempo }}</td>
+          <td>{{ orden.getPeriodosDeEjecucion }}</td>
+          <td>{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}</td>
+          <td> 
+            <button onclick="iniciar('{{ path('taller_iniciar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')"      class="pure-button 
+                      {% if orden.estado.numero == 2 or mecanico.isActivo %} pure-button-disabled {% endif %} "
+                    title="Continuar"
+                    {% if orden.estado.numero == 2 or mecanico.isActivo %} disabled {% endif %}  > 
+              <i class="fa fa-play"></i>
+            </button>
+
+            <button onclick="detener('{{ path('taller_detener_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" class=" pure-button {% if orden.estado.numero == 1 %} pure-button-disabled {% endif %} "
+                    title="Pausar"
+                    {% if orden.estado.numero == 1 %} disabled {% endif %} >
+              <i class="fa fa-pause"></i>   
+           </button>
+
+            <button onclick="finalizar('{{ path('taller_finalizar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" style="color: green;" class=" pure-button"
+                    title="Finalizar" >
+              <i class="fa fa-check"></i> 
+            </button>
+
+            <button onclick="liberar('{{ path('taller_liberar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" style="color: green;"  class="pure-button"
+                    title="Pasar a otro mecanico (Terminar mi trabajo)" >
+              <i  class="fa fa-share"></i> <i class="fa fa-user"></i>
+            </button>
+|
+            <button onclick="tercerizar('{{ path('taller_tercerizar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" class="pure-button"
+                    title="Tercerizar" >
+              <i class="fa fa-share"></i><i class="fa fa-wrench"></i>
+            </button>
+
+            <button onclick="ponerEnEspera('{{ path('taller_espera_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" class="pure-button"
+                    title="Poner en espera de repuestos">
+              <i class="fa fa-clock-o"></i>    <i class="fa fa-cogs"></i>
+            </button>
+
+
+
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+</br></br></br>
+
+  <h2> Ordenes sin asignar </h2>
+
+  Mecanico: - </br> 
+
+
+   <table class="pure-table" >
+
+    <thead>
+      <tr style="text-align: center; vertical-align: middle;">
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Tiempo<br>(UT)</th>
+        <th>Trabajos<br/>efectuados</th>
+        <th>Tiempo<br/>Trabajado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for orden in ordenesSinAsignar %}
+        <tr {% if orden.estado.numero == 2 %} bgcolor="#EEeefe" style=" font-weight: bold;" {% endif %} >
+          <td  >
+            {{ orden.numero }}
+          </td>
+          <td>{{ orden.fechaAlta|date('d/m/y') }}</td>
+          <td>{{ orden.estado.nombre }}</td>
+          <td>{{ orden.tiempo }}</td>
+          <td>{{ orden.getPeriodosDeEjecucion }}</td>
+          <td>{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}</td>
+          <td> 
+            <button onclick="iniciar('{{ path('taller_iniciar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')"      class="pure-button 
+                      {% if orden.estado.numero == 2 or mecanico.isActivo %} pure-button-disabled {% endif %} "
+                    title="Continuar"
+                    {% if orden.estado.numero == 2 or mecanico.isActivo %} disabled {% endif %}  > 
+              <i class="fa fa-play"></i>
+            </button>
+
+            <button onclick="detener('{{ path('taller_detener_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" class=" pure-button {% if orden.estado.numero == 1 %} pure-button-disabled {% endif %} "
+                    title="Pausar"
+                    {% if orden.estado.numero == 1 %} disabled {% endif %} >
+              <i class="fa fa-pause"></i>   
+           </button>
+
+            <button onclick="finalizar('{{ path('taller_finalizar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" style="color: green;" class=" pure-button"
+                    title="Finalizar" >
+              <i class="fa fa-check"></i> 
+            </button>
+
+            <button onclick="liberar('{{ path('taller_liberar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" style="color: green;"  class="pure-button"
+                    title="Pasar a otro mecanico (Terminar mi trabajo)" >
+              <i  class="fa fa-share"></i> <i class="fa fa-user"></i>
+            </button>
+|
+            <button onclick="tercerizar('{{ path('taller_tercerizar_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" class="pure-button"
+                    title="Tercerizar" >
+              <i class="fa fa-share"></i><i class="fa fa-wrench"></i>
+            </button>
+
+            <button onclick="ponerEnEspera('{{ path('taller_espera_orden', {'ordenid': orden.id, 'mecanicoid': mecanico.id}) }}', '{{ path('taller_listar_orden_mecanico', { 'mecanicoid': mecanico.id }) }}')" class="pure-button"
+                    title="Poner en espera de repuestos">
+              <i class="fa fa-clock-o"></i>    <i class="fa fa-cogs"></i>
+            </button>
+
+
+
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>

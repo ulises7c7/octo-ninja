@@ -1,0 +1,138 @@
+{% extends 'DonCarTallerBundle::layout.html.twig' %}
+
+{% block title 'DonCar Taller' %}
+
+{% block content %}
+
+<script>
+  $(function() {
+	$( "#dialog-modal" ).dialog({
+	  height: 140,
+	  modal: true
+	});
+  });
+
+  $(function() {
+  $( "#dialog-modal-exito" ).dialog({
+    height: 140,
+    modal: true,
+    height: 190,
+    autoOpen: false,
+     buttons: {
+Aceptar: function() {
+$( this ).dialog( "close" );
+}
+}
+  });
+  });
+
+  $(function() {
+    $( "#dialog-modal-ordenes" ).dialog({
+      height: 500,
+      modal: true,
+      width: 1000
+   });
+  });
+</script>
+
+<h1 class="title">Ordenes </h1>
+
+{{ form(form) }}
+
+{% if (ordenes|length > 0 or ordenesSinAsignar|length > 0) and mecanico %}
+<div id="dialog-modal-ordenes" title="{{ mecanico.apellido }}, {{ mecanico.nombre }} (Mecanico {{mecanico.numero}})" >
+  <div id="new-nav">
+    {{ render(controller('DonCarTallerBundle:Ordenes:listarOrdenesMecanico', { 'mecanicoid': mecanico.id })) }}
+  </div>
+</div>
+{% endif %}
+
+
+{% if mensaje %}
+  <div id="dialog-modal" title="Mensaje" >
+    {{ mensaje }}
+  </div>
+{% endif %}
+
+  <div id="dialog-modal-exito" title="Operacion exitosa" >
+     <p>
+     <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+La operacion se realizo <b>exitosamente</b>.</p>
+  </div>
+
+
+{% endblock %}
+
+
+{% block javascripts %} 
+<script>
+
+  function iniciar(url, url2){
+    if (confirm("Desea continuar trabajando sobre la orden indicada?")){
+      if(httpGet(url)==1){
+        $( "#dialog-modal-exito" ).dialog( "open" );
+      }else{alert("no se pudo completar la operacion");}
+      recargar(url2);
+    }
+  };
+
+  function detener(url, url2){
+    if (confirm("Desea pausar la ejecucion del trabajo sobre la orden?. Podra continuar ejecutandola luego.")){
+    if(httpGet(url)==1){
+        $( "#dialog-modal-exito" ).dialog( "open" );
+      }else{alert("no se pudo completar la operacion");}
+    recargar(url2);
+    }
+  };
+
+  function finalizar(url, url2){
+    if (confirm("Desea cerrar la orden definitivamente?")){
+    if(httpGet(url)==1){
+        $( "#dialog-modal-exito" ).dialog( "open" );
+      }else{alert("no se pudo completar la operacion");}
+    recargar(url2);
+    }
+  };
+
+  function liberar(url, url2){
+    if (confirm("Desea liberar la orden para que otro mecanico pueda continuar trabajando sobre la misma?")){
+    if(httpGet(url)==1){
+        $( "#dialog-modal-exito" ).dialog( "open" );
+      }else{alert("no se pudo completar la operacion");}
+    recargar(url2);
+    }
+  };
+
+  function tercerizar(url, url2){
+    if (confirm("Desea indicar que la orden necesita tercerizarse?")){
+    if(httpGet(url)==1){
+        $( "#dialog-modal-exito" ).dialog( "open" );
+      }else{alert("no se pudo completar la operacion");}
+    recargar(url2);
+    }
+  };
+
+  function ponerEnEspera(url, url2){
+    if (confirm("Desea poner la orden en espera de repuestos?")){
+    if(httpGet(url)==1){
+        $( "#dialog-modal-exito" ).dialog( "open" );
+      }else{alert("no se pudo completar la operacion");}
+    recargar(url2);
+    }
+  };
+
+
+function httpGet(theUrl){
+    var xmlHttp = null;
+
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false );
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+};
+
+function recargar(url){
+  $( "#new-nav" ).load(url);
+}
+</script>
+{% endblock %}

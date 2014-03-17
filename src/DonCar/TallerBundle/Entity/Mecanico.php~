@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 */
 
 class Mecanico{
+    const ESTADO_ACTIVO = 1;
+    const ESTADO_OCIOSO = 2;
 
 	/**
 	* @ORM\Id
@@ -44,6 +46,16 @@ class Mecanico{
      	*/
 	protected $periodosTrabajados;
 
+
+    public function isActivo(){
+      $activo = false;
+      foreach ($this->getOrdenesAsignadas() as $orden) {
+        if ($orden->getEstado()->getNumero()==EstadoOrden::EN_EJECUCION){
+          $activo = true;
+        }
+      }
+      return $activo;
+    }
 
     /**
      * Get id
@@ -216,7 +228,7 @@ class Mecanico{
      * @param \DonCar\TallerBundle\Entity\Orden $ordenesAsignadas
      * @return Mecanico
      */
-    public function addOrdenesAsignada(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
+    public function addOrdenesAsignadas(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
     {
         $this->ordenesAsignadas[] = $ordenesAsignadas;
 
@@ -241,5 +253,41 @@ class Mecanico{
     public function getOrdenesAsignadas()
     {
         return $this->ordenesAsignadas;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param string $estado
+     * @return Mecanico
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return string 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
+    }
+
+    /**
+     * Add ordenesAsignadas
+     *
+     * @param \DonCar\TallerBundle\Entity\Orden $ordenesAsignadas
+     * @return Mecanico
+     */
+    public function addOrdenesAsignada(\DonCar\TallerBundle\Entity\Orden $ordenesAsignadas)
+    {
+        $this->ordenesAsignadas[] = $ordenesAsignadas;
+
+        return $this;
     }
 }

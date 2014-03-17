@@ -81,8 +81,7 @@ public function listarMecanicoAction(){
         ->getRepository('DonCarTallerBundle:Mecanico')
         ->findBy(array(),array('numero' => 'ASC'));
 	
-	$params = array(
-	 'mecanicos' => $mecanicos,);	
+	$params = array('mecanicos' => $mecanicos,);	
 
 	return $this->render('DonCarTallerBundle:Default:listarMecanico.html.twig',$params);
 }

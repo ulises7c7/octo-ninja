@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="ordenes")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="DonCar\TallerBundle\Entity\OrdenRepository")
  * @UniqueEntity(fields="numero", message="La orden ya esta cargada")
  *
 */
@@ -42,7 +42,7 @@ class Orden{
      	* @Assert\Type(type="DonCar\TallerBundle\Entity\Mecanico")
      	*/
 	/**
-	* @ORM\ManyToOne(targetEntity="Mecanico")
+	* @ORM\ManyToOne(targetEntity="Mecanico", inversedBy="ordenesAsignadas")
 	* @ORM\JoinColumn(name="mecanico_id", referencedColumnName="id")
 	*/
 	protected $mecanico;
@@ -63,74 +63,54 @@ class Orden{
 
 
 public function iniciar($mecanico, $estado_iniciado){
-  $msj = '';
-  $errores = true;
-  if ($this->getEstado()->getNumero() == EstadoOrden::DETENIDO){
-	$nuevoTrabajo = new PeriodoTrabajo();
-	$nuevoTrabajo->setMecanico($mecanico);
-	$nuevoTrabajo->setOrden($this);
-	$horaActual = new \DateTime("now");
-	$nuevoTrabajo->setInicio($horaActual);
-	
-	$this->setEstado($estado_iniciado);
-	$this->setMecanico($mecanico);
-	$this->addPeriodosTrabajo($nuevoTrabajo);
-
-	//Setear mensajes caso favorable
-	$errores = false;
-	$msj = "Se ha iniciado el trabajo";
-  }else {
-	//Tratar Otro caso
-	$errores = true;
-	$msj = "No se pudo iniciar el trabajo, la orden esta finalizada";
- }
- return  array('errores'=> $errores, 'mensaje'=> $msj);
+  return $this->cambiarEstado($mecanico,$estado_iniciado);
+  $mecanico->addOrdenesAsignadas($this);
+  $this->setMecanico($mecanico);
 }
-
 
 public function detener($mecanico, $estado_detenido){
-  $errores = true;
-  $msj = "No se pudo detener el trabajo";
-
-  if($mecanico->getId() != $this->getMecanico()->getId()){
-	//Tratar caso 'Asignada a otro mecanico'
-	$errores = true;
-	$msj = "No se pudo detener el trabajo porque la orden esta asignada a otro mecanico";
-
-  }elseif($this->getEstado()->getNumero() == EstadoOrden::EN_EJECUCION){
-	
-	//Obtener ultimo trabajo
-	$periodos = $this->getPeriodosTrabajo();
-	$cant = count($periodos);
-	$ultimoTrabajo = $periodos->get($cant -1);
-
-	//Establecer datos ultimo trabajo
-	$horaActual = new \DateTime("now");
-	$ultimoTrabajo->setFin($horaActual);
-	
-	//Estabecer datos de la orden
-	$this->setEstado($estado_detenido);
-	$errores = false;
-	$msj = "Se detuvo el trabajo";
-
-  }else{
-	//TODO: Tratar excepcion
-	$errores = true;
-	$msj = "No se pudo detener el trabajo porque no esta en ejecucion";
-  }
-  
-  return  array('errores'=> $errores, 'mensaje'=> $msj);
-
+  return $this->cambiarEstado($mecanico,$estado_detenido);
 }
 
-private function iniciarDetener($mecanico, $estado){
-
-  if ($this->getEstado()->getNumero()== EstadoOrden::DETENIDO){
-	return $this->iniciar($mecanico, $estado);
-  }else
-	return $this->detener($mecanico, $estado);
+public function finalizar($mecanico, $estado_finalizado){
+  return $this->cambiarEstado($mecanico,$estado_finalizado);
 }
 
+public function liberar($mecanico, $estado_detenido){
+  return $this->cambiarEstado($mecanico,$estado_detenido);
+}
+
+public function tercerizar($mecanico, $estado_tercerizado){
+  return $this->cambiarEstado($mecanico,$estado_tercerizado);
+}
+
+public function ponerEnEspera($mecanico, $estado_en_espera){
+  return $this->cambiarEstado($mecanico,$estado_en_espera);
+}
+
+
+private function cambiarEstado($mecanico,$estado){
+    $ultimoEvento = null;
+    $periodosActuales = $this->getPeriodosTrabajo();
+    if ($periodosActuales && (count($periodosActuales) > 0)){
+        $ultimoEvento = $periodosActuales->get(count($periodosActuales)-1);
+    }
+
+    $nuevoEvento = new PeriodoTrabajo();
+    $nuevoEvento->setMecanico($mecanico);
+    $nuevoEvento->setOrden($this);
+    $horaActual = new \DateTime("now");
+    $nuevoEvento->setInicio($horaActual);
+    if($ultimoEvento){
+        $ultimoEvento->setFin($horaActual);
+    }
+    $nuevoEvento->setEstadoOrden($estado);
+    
+    $this->setEstado($estado);
+    $this->addPeriodosTrabajo($nuevoEvento);
+
+    return true;
+}
 
 
    public function getTiempoTrabajado(){
@@ -138,10 +118,24 @@ private function iniciarDetener($mecanico, $estado){
 	$e = new DateTime('00:00');
 	$f = clone $e;
 	foreach($periodos as $periodo){
-	  $e->add($periodo->getTiempo());
-        }
+      if ($periodo->getEstadoOrden()->getNumero() == EstadoOrden::EN_EJECUCION){
+	    $e->add($periodo->getTiempo());
+      }
+    }
 	return $f->diff($e);
    }
+
+   public function getPeriodosDeEjecucion(){
+    $cont = 0;
+    $periodos = $this->getPeriodosTrabajo();
+    foreach($periodos as $periodo){
+      if ($periodo->getEstadoOrden()->getNumero() == EstadoOrden::EN_EJECUCION){
+        $cont++;  
+      }
+    }
+    return $cont;
+   }
+
 
     /**
      * Constructor

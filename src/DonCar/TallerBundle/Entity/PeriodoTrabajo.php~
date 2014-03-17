@@ -21,17 +21,17 @@ class PeriodoTrabajo{
 	protected $id;
 
 	/**
-	* @ORM\Column(type="datetime")
-	*/
+	   * @ORM\Column(type="datetime")
+	   */
 	protected $inicio;
 
 	/**
-	* @ORM\Column(type="datetime",  nullable=true)
-	*/
+	   *  @ORM\Column(type="datetime",  nullable=true)
+	   */
 	protected $fin;
 
   	/**
-     	* @ORM\ManyToOne(targetEntity="Orden", inversedBy="periodos")
+     	* @ORM\ManyToOne(targetEntity="Orden", inversedBy="periodosTrabajo")
      	* @ORM\JoinColumn(name="orden_id", referencedColumnName="id")
      	*/   
 	protected $orden;
@@ -43,6 +43,16 @@ class PeriodoTrabajo{
 	protected $mecanico;
 
 
+    /**
+        * @ORM\ManyToOne(targetEntity="EstadoOrden")
+        * @ORM\JoinColumn(name="estado_id", referencedColumnName="id")
+        */   
+    protected $estadoOrden;
+
+    /**
+        * @ORM\Column(type="string", length=500,  nullable=true)
+        */
+    protected $comentario;
 
 
 
@@ -50,7 +60,7 @@ class PeriodoTrabajo{
      if ($this->getFin()){
        $diferencia = $this->getFin()->diff( $this->getInicio());
      }else{
-	$horaActual = new DateTime();
+	   $horaActual = new DateTime();
        $diferencia =  $horaActual->diff( $this->getInicio());
      }
       return $diferencia;
@@ -158,5 +168,51 @@ class PeriodoTrabajo{
     public function getMecanico()
     {
         return $this->mecanico;
+    }
+
+    /**
+     * Set comentario
+     *
+     * @param string $comentario
+     * @return PeriodoTrabajo
+     */
+    public function setComentario($comentario)
+    {
+        $this->comentario = $comentario;
+
+        return $this;
+    }
+
+    /**
+     * Get comentario
+     *
+     * @return string 
+     */
+    public function getComentario()
+    {
+        return $this->comentario;
+    }
+
+    /**
+     * Set estadoOrden
+     *
+     * @param \DonCar\TallerBundle\Entity\EstadoOrden $estadoOrden
+     * @return PeriodoTrabajo
+     */
+    public function setEstadoOrden(\DonCar\TallerBundle\Entity\EstadoOrden $estadoOrden = null)
+    {
+        $this->estadoOrden = $estadoOrden;
+
+        return $this;
+    }
+
+    /**
+     * Get estadoOrden
+     *
+     * @return \DonCar\TallerBundle\Entity\EstadoOrden 
+     */
+    public function getEstadoOrden()
+    {
+        return $this->estadoOrden;
     }
 }

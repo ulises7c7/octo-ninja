@@ -14,6 +14,8 @@ class EstadoOrden{
   const DETENIDO = 1;
   const EN_EJECUCION = 2;
   const FINALIZADA = 3;
+  const TERCERIZADO = 4;
+  const ESPERA_REPUESTOS = 5;
 
 	/**
 	* @ORM\Id

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sistema Taller</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://stackedit.io/libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h3 id="ordenes">Ordenes</h3>
+
+<h4 id="estados-y-transiciones">Estados y transiciones</h4>
+
+<table>
+<thead>
+<tr>
+  <th>Estados - Acciones</th>
+  <th style="text-align:center;">Continuar <i class="icon-play"></i></th>
+  <th style="text-align:center;">Detener <i class="icon-stop"></i></th>
+  <th style="text-align:center;">Finalizar <i class="icon-check"></i></th>
+  <th style="text-align:center;">Liberar <i class="icon-forward"></i></th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Detenido</td>
+  <td style="text-align:center;">‘En ejecucion’</td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;"><code>Finalizado</code></td>
+  <td style="text-align:center;"><code>Detenido</code></td>
+</tr>
+<tr>
+  <td>En ejecucion</td>
+  <td style="text-align:center;"></td>
+  <td style="text-align:center;"><code>Detenido</code></td>
+  <td style="text-align:center;"><code>Finalizado</code></td>
+  <td style="text-align:center;"><code>Detenido</code></td>
+</tr>
+<tr>
+  <td>Finalizado</td>
+  <td style="text-align:center;"></td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;">-</td>
+</tr>
+<tr>
+  <td>Tercerizado</td>
+  <td style="text-align:center;"></td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;">-</td>
+</tr>
+<tr>
+  <td>En espera de repuestos</td>
+  <td style="text-align:center;"></td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;">-</td>
+  <td style="text-align:center;">-</td>
+</tr>
+</tbody></table>
+
+
+<h4 id="antes-de-hacer-el-deploy">Antes de hacer el deploy</h4>
+
+<h5 id="en-la-consola-de-linux">En la consola de linux</h5>
+
+<pre style="" class="prettyprint prettyprinted"><code><span class="com"># Obtener nueva version</span><span class="pln">
+git pull origin master
+
+</span><span class="com"># Regenerar entidades</span><span class="pln">
+php app</span><span class="pun">/</span><span class="pln">console doctrine</span><span class="pun">:</span><span class="pln">generate</span><span class="pun">:</span><span class="pln">entities </span><span class="typ">DonCar</span><span class="pln">
+php app</span><span class="pun">/</span><span class="pln">console doctrine</span><span class="pun">:</span><span class="pln">schema</span><span class="pun">:</span><span class="pln">update </span><span class="pun">--</span><span class="pln">force
+
+</span><span class="com"># Crear vinculos simbolicos</span><span class="pln">
+php app</span><span class="pun">/</span><span class="pln">console assets</span><span class="pun">:</span><span class="pln">install web </span><span class="pun">--</span><span class="pln">symlink
+
+</span><span class="com"># Vaciar cache</span><span class="pln">
+sudo chmod </span><span class="lit">777</span><span class="pln"> </span><span class="pun">-</span><span class="pln">R app</span><span class="pun">/</span><span class="pln">
+php app</span><span class="pun">/</span><span class="pln">console cache</span><span class="pun">:</span><span class="pln">clear </span><span class="pun">--</span><span class="pln">env</span><span class="pun">=</span><span class="pln">prod
+php app</span><span class="pun">/</span><span class="pln">console cache</span><span class="pun">:</span><span class="pln">clear </span><span class="pun">--</span><span class="pln">env</span><span class="pun">=</span><span class="pln">dev
+sudo chmod </span><span class="lit">777</span><span class="pln"> </span><span class="pun">-</span><span class="pln">R app</span><span class="pun">/</span></code></pre>
+
+<h5 id="en-la-cosola-de-mysql">En la cosola de MySQL</h5>
+
+<pre style="" class="prettyprint prettyprinted"><code><span class="pun">--</span><span class="pln"> </span><span class="typ">Para</span><span class="pln"> desasignar ordenes finalizadas
+UPDATE ordenes SET mecanico_id </span><span class="pun">=</span><span class="pln"> NULL WHERE estado_id </span><span class="pun">=</span><span class="pln"> </span><span class="lit">3</span><span class="pun">;</span><span class="pln">
+
+</span><span class="pun">--</span><span class="pln"> </span><span class="typ">Para</span><span class="pln"> crear los nuevos estados
+INSERT INTO estado_orden VALUES 
+    </span><span class="pun">(</span><span class="lit">4</span><span class="pun">,</span><span class="lit">4</span><span class="pun">,</span><span class="str">'Tercerizado'</span><span class="pun">),</span><span class="pln"> 
+    </span><span class="pun">(</span><span class="lit">5</span><span class="pun">,</span><span class="lit">5</span><span class="pun">,</span><span class="str">'En espera de repuestos'</span><span class="pun">);</span><span class="pln">
+</span></code></pre>
+
+<h4 id="issues">Issues</h4>
+
+<ul>
+<li>Hacer nueva interfaz de manejo de ordenes</li>
+<li>Eliminar mensajes “eviar que esta pagina cree…”</li>
+<li>Mostrar informes de ordenes</li>
+<li>Tomar orden ajena/sin asignar</li>
+</ul>
+
+<hr></div></body>
+</html>

@@ -19,28 +19,70 @@ taller_eliminar_mecanico:
 
 #Orden
 
+
+# Orden gestion de trabajo
+taller_gestion_orden:
+    pattern: /orden/gestion
+    defaults: { _controller: DonCarTallerBundle:Ordenes:gestionOrden }
+
+taller_listar_orden_mecanico:
+    pattern: /orden/listarmecanico_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrdenesMecanico }
+
+
+# Orden ABM
 taller_alta_orden:
     pattern: /orden/alta
-    defaults: { _controller: DonCarTallerBundle:Ordenes:altaOrden }
+    defaults: { _controller: DonCarTallerBundle:OrdenesABM:altaOrden }
 
 taller_editar_orden:
     pattern: /orden/editar/{id}
-    defaults: { _controller: DonCarTallerBundle:Ordenes:editarOrden }
-
-taller_gestion_orden:
-    pattern: /orden/gestion
-    defaults: { _controller: DonCarTallerBundle:Ordenes:gestionarOrden }
+    defaults: { _controller: DonCarTallerBundle:OrdenesABM:editarOrden }
 
 taller_listar_orden:
     pattern: /orden/listar
-    defaults: { _controller: DonCarTallerBundle:Ordenes:listarOrden }
+    defaults: { _controller: DonCarTallerBundle:OrdenesABM:listarOrden }
 
 taller_eliminar_orden:
     pattern: /orden/eliminar/{id}
-    defaults: { _controller: DonCarTallerBundle:Ordenes:eliminarOrden }
+    defaults: { _controller: DonCarTallerBundle:OrdenesABM:eliminarOrden }
+
+
+
+#Orden Acciones
+taller_detener_orden:
+    pattern: /orden/detener/ord_{ordenid}/mec_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:detenerOrden }
+
+taller_iniciar_orden:
+    pattern: /orden/iniciar/ord_{ordenid}/mec_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:iniciarOrden }
+
+taller_finalizar_orden:
+    pattern: /orden/finalizar/ord_{ordenid}/mec_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:finalizarOrden }
+
+taller_tercerizar_orden:
+    pattern: /orden/tercerizar/ord_{ordenid}/mec_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:tercerizarOrden }
+
+taller_espera_orden:
+    pattern: /orden/espera/ord_{ordenid}/mec_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:ponerEnEsperaOrden }
+
+taller_liberar_orden:
+    pattern: /orden/liberar/ord_{ordenid}/mec_{mecanicoid}
+    defaults: { _controller: DonCarTallerBundle:Ordenes:liberarOrden }
+
+
+
 
 
 # Varios
+
+taller_notas:
+   pattern: /notas
+   defaults: { _controller: DonCarTallerBundle:Default:notas }
 
 taller_operacion_exitosa:
     pattern: /exito

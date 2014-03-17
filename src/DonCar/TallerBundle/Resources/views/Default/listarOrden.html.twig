@@ -7,19 +7,30 @@
 {% block content %}
 
   <h1 class="title">Ordenes </h1>
-
-  {{ form_start(form, { 'attr': {'class' : 'pure-form'}}) }}
-    <fieldset>
+  <fieldset>
+     <legend> Buscar Orden </legend>
+  {{ form_start(form, { 'attr': {'class' : 'pure-form', 'novalidate': ''}}) }}
+    
       {{ form_errors(form) }}
 
-      {{ form_label(form.fecha, 'Buscar por fecha') }}
+      {{ form_label(form.fecha, 'Desde') }}
       {{ form_widget(form.fecha) }}
 
-      <button type="submit" class="pure-button pure-button-primary">Buscar</button>
-      
+       {{ form_label(form.hasta, 'Hasta') }}
+      {{ form_widget(form.hasta) }}
+
+      {{ form_label(form.numero, 'Numero') }}<br/>
+      {{ form_widget(form.numero) }}
+
+      <button type="submit" class="pure-button">
+         <span class="fa-search-plus"></span>
+        Buscar
+      </button>
       {{ form_rest(form) }}
-    </fieldset>
+      
+    
   {{ form_end(form) }}
+  </fieldset>
 
   <br/>
 
@@ -32,7 +43,7 @@
         <th>Estado</th>
         <th>Mecanico</th>
         <th>Tiempo (UT)</th>
-        <th>Trabajos efectuados</th>
+        <th>Trabajos</br>efectuados</th>
         <th>Tiempo total</th>
         <th>Acciones</th>
       </tr>
@@ -46,9 +57,9 @@
           </td>
           <td>{{ orden.fechaAlta|date('d/m/y') }}</td>
           <td>{{ orden.estado.nombre }}</td>
-          <td>{{ orden.mecanico.numero }} ({{ orden.mecanico.apellido  }}, {{ orden.mecanico.nombre }}) </td>
+          <td> {% if orden.mecanico %} {{ orden.mecanico.numero }} ({{ orden.mecanico.apellido  }}, {{ orden.mecanico.nombre }}) {% endif %} </td>
           <td>{{ orden.tiempo }}</td>
-          <td>{{ orden.periodosTrabajo|length }}</td>
+          <td>{{ orden.getPeriodosDeEjecucion }}</td>
           <td>{{ orden.getTiempoTrabajado|date('%d dias %Hh %Im') }}</td>
           <td> 
             <button class="pure-button" 
