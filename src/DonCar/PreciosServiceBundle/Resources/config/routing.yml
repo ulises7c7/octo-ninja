@@ -1,3 +1,38 @@
 don_car_precios_service_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: DonCarPreciosServiceBundle:Default:index }
+
+ps_service_editar:
+    pattern: /serv_editar_{id}
+    defaults: { _controller: DonCarPreciosServiceBundle:Service:editar }
+
+ps_service_ver:
+    pattern: /serv_ver_{id}
+    defaults: { _controller: DonCarPreciosServiceBundle:Service:ver }
+
+ps_vehiculo_administrar:
+    pattern: /vehic_administrar
+    defaults: { _controller: DonCarPreciosServiceBundle:Vehiculo:administrar }
+
+ps_repuesto_administrar:
+    pattern: /rep_administrar
+    defaults: { _controller: DonCarPreciosServiceBundle:Repuesto:administrar }
+
+ps_service_administrar:
+    pattern: /serv_administrar
+    defaults: { _controller: DonCarPreciosServiceBundle:Service:administrar }
+
+ps_service_alta:
+    pattern: /serv_alta
+    defaults: { _controller: DonCarPreciosServiceBundle:Service:alta }
+
+ps_mano_de_obra_administrar:
+    pattern: /mdo_administrar
+    defaults: { _controller: DonCarPreciosServiceBundle:ManoDeObra:administrar }
+
+ps_root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /service/serv_administrar
+        permanent: true

@@ -1,0 +1,56 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+        {{ form_start(form_alta,{'action': path('ps_service_alta'), 'method': 'POST'}) }}
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Nuevo Service</h4>
+      </div>
+
+      <div class="modal-body">
+
+          {{ form_errors(form_alta) }}
+        <div class="form-group">
+          {{ form_label(form_alta.vehiculo) }}
+          {{ form_widget(form_alta.vehiculo, {'attr': {'class':'form-control'}}) }}
+          {{ form_errors(form_alta.vehiculo) }}  
+        </div>
+        <div class="form-group">
+          {{ form_label(form_alta.descripcion) }}
+          {{ form_widget(form_alta.descripcion, {'attr': {'placeholder': 'ej: 10.000 km', 'class':'form-control'}}) }}
+          {{ form_errors(form_alta.descripcion) }}  
+        </div>
+        <div class="form-group">
+          {{ form_label(form_alta.preciosbs) }}
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            {{ form_widget(form_alta.preciosbs, {'attr': {'placeholder': 'Precio en sbs', 'class':'form-control'}}) }}
+          </div>
+          {{ form_errors(form_alta.preciosbs) }}
+        </div>
+        <div class="form-group">
+          {{ form_label(form_alta.preciovw) }}
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            {{ form_widget(form_alta.preciovw, {'attr': {'placeholder': 'Precio VW', 'class':'form-control'}}) }}
+          </div>
+          {{ form_errors(form_alta.preciovw) }}
+        </div>
+          {{ form_rest(form_alta)}}  
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">
+          <span class="glyphicon glyphicon-floppy-disk "></span>
+          Guardar
+        </button>
+          
+      </div>
+    {{ form_end(form_alta) }}
+    </div>
+
+
+  </div>
+</div>

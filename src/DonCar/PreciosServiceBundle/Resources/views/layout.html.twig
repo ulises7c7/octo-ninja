@@ -1,0 +1,103 @@
+{% extends '::base.html.twig' %}
+
+
+{% block stylesheets %}
+
+<!-- jquery-ui -->
+<link href="{{ asset('bundles/doncarpreciosservice/jquery-ui/css/smoothness/jquery-ui-1.10.4.custom.min.css') }}" type="text/css" rel="stylesheet" />
+<script src="{{ asset('bundles/doncarpreciosservice/jquery-ui/js/jquery-1.10.2.js') }}" type="text/javascript" ></script>
+<script src="{{ asset('bundles/doncarpreciosservice/jquery-ui/js/jquery-ui-1.10.4.custom.js') }}" type="text/javascript" ></script>
+
+
+<!-- Bootstrap -->
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/doncarpreciosservice/bootstrap/css/bootstrap.min.css') }}"/>
+<link type="text/css" rel="stylesheet" href="{{ asset('bundles/doncarpreciosservice/bootstrap/css/bootstrap-theme.min.css') }}" />
+<script src="{{ asset('bundles/doncarpreciosservice/bootstrap/js/bootstrap.min.js') }}" type="text/javascript" ></script>
+
+<style>
+body { padding-top: 70px; }
+</style>
+
+ 
+
+
+{% endblock %}
+
+{% block title 'DonCar Services' %}
+{% block body %}
+
+    <div class="container">
+
+      <!-- Static navbar -->
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{path("ps_root")}}">DonCar Services</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Repuestos<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ path( 'ps_repuesto_administrar') }}">Administrar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mano de Obra<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ path( 'ps_mano_de_obra_administrar') }}">Administrar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vehiculos<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ path( 'ps_vehiculo_administrar') }}">Administrar</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{{ path( 'ps_service_administrar') }}">Administrar</a></li>
+                  <li><a onclick="altaService()">Crear nuevo</a></li>
+                </ul>
+              </li>
+            </ul>
+
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </div>
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="starter-template">
+      {% block content %}
+      {% endblock %}  
+      </div>
+
+      <div id="dialogo"></div>
+
+    </div> <!-- /container -->
+
+
+
+    <!-- Contenido traido por jquery -->
+
+
+
+<script>
+function altaService(){
+  $( "#dialogo" ).load( 
+    "{{ path( 'ps_service_alta') }}" , 
+    function() {
+      $('#myModal').modal('toggle');
+    });
+}
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'DonCarPreciosServiceBundle::layout.html.twig' %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Services</h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+            	<th>Vehiculo</th>
+            	<th>Descripcion</th>
+            	<th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for service in services %}
+            <tr>
+            	<td>{{ service.vehiculo.nombre }}</td>
+            	<td>{{ service.descripcion }}</td>
+            	<td><a href="{{path("ps_service_editar", {'id': service.id})}}" >Editar</a> <a href="" >Eliminar</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div><!-- /.col-sm-4 -->
+</div>
+
+
+{% endblock %}  

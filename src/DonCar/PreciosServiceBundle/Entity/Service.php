@@ -37,6 +37,18 @@ class Service{
     */
 	protected $insumos;
 
+
+    /**
+    * @ORM\Column(type="decimal")
+    */
+    protected $precioComp;
+
+
+    /**
+    * @ORM\Column(type="decimal")
+    */
+    protected $precioVW;
+
     /**
      * Constructor
      */
@@ -79,12 +91,58 @@ class Service{
     }
 
     /**
-     * Set vehiculo
+     * Set precioComp
      *
-     * @param \DonCar\PreciosServiceBundle\Entity\Vehiculos $vehiculo
+     * @param string $precioComp
      * @return Service
      */
-    public function setVehiculo(\DonCar\PreciosServiceBundle\Entity\Vehiculos $vehiculo = null)
+    public function setPrecioComp($precioComp)
+    {
+        $this->precioComp = $precioComp;
+
+        return $this;
+    }
+
+    /**
+     * Get precioComp
+     *
+     * @return string 
+     */
+    public function getPrecioComp()
+    {
+        return $this->precioComp;
+    }
+
+    /**
+     * Set precioVW
+     *
+     * @param string $precioVW
+     * @return Service
+     */
+    public function setPrecioVW($precioVW)
+    {
+        $this->precioVW = $precioVW;
+
+        return $this;
+    }
+
+    /**
+     * Get precioVW
+     *
+     * @return string 
+     */
+    public function getPrecioVW()
+    {
+        return $this->precioVW;
+    }
+
+    /**
+     * Set vehiculo
+     *
+     * @param \DonCar\PreciosServiceBundle\Entity\Vehiculo $vehiculo
+     * @return Service
+     */
+    public function setVehiculo(\DonCar\PreciosServiceBundle\Entity\Vehiculo $vehiculo = null)
     {
         $this->vehiculo = $vehiculo;
 
@@ -94,7 +152,7 @@ class Service{
     /**
      * Get vehiculo
      *
-     * @return \DonCar\PreciosServiceBundle\Entity\Vehiculos 
+     * @return \DonCar\PreciosServiceBundle\Entity\Vehiculo 
      */
     public function getVehiculo()
     {

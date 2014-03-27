@@ -1,0 +1,52 @@
+{% extends 'DonCarPreciosServiceBundle::layout.html.twig' %}
+{% block content %}
+
+<div class="page-header">
+  <h1>{{service.vehiculo.nombre}}: {{service.descripcion}}</h1>
+</div>
+
+{% for condi in condiciones%}
+<div class="row">
+  <div class="col-md-8">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{condi.nombre}}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+
+
+
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Descripcion</th>
+              <th>Precio</th>
+              <th>#</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for insumo in service.insumos %}
+            {% if insumo.condicion == condi %}
+            <tr>
+              <td style="color: grey" ><small>{{ insumo.repuesto.codigo }}</small></td>
+              <td>{{ insumo.repuesto.descripcion }}</td>
+              <td><p class="text-right">{{ insumo.repuesto.precio }}</p> </td>
+              <td><input {% if condi.id == 1 %} disabled checked {% endif %} type="checkbox"></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.col-md-6 -->
+</div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'DonCarPreciosServiceBundle::layout.html.twig' %}
+{% block content %}
+
+
+<div class="page-header">
+        <h1>Repuestos</h1>
+      </div>
+
+
+
+
+<div class="row">
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-body">
+
+
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+	<th>Codigo</th>
+	<th>Precio</th>
+	<th>Acciones</th>
+</tr>
+</thead>
+<tbody>
+{% for repuesto in repuestos %}
+
+<tr>
+	<td>{{ repuesto.codigo }}</td>
+	<td>{{ repuesto.precio }}</td>
+	<td><a href="" >Editar</a> <a href="" >Eliminar</a></td>
+</tr>
+
+{% endfor %}
+</tbody>
+</table>
+
+
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+</div>
+{% endblock %}  

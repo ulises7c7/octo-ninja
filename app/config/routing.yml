@@ -1,6 +1,6 @@
 don_car_precios_service:
     resource: "@DonCarPreciosServiceBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /service
 
 don_car_taller:
     resource: "@DonCarTallerBundle/Resources/config/routing.yml"
