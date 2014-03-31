@@ -30,7 +30,7 @@ class ServiceController extends Controller
     return $this->render('DonCarPreciosServiceBundle:Usuario:verService.html.twig', array('service' => $service, 'condiciones' => $condiciones));
   }
 
-  public function administrarAction(Request $request)    {
+  public function administrarAction()    {
   	$services = $this->getDoctrine()
         ->getRepository('DonCarPreciosServiceBundle:Service')
         ->findAll(); 
@@ -38,6 +38,19 @@ class ServiceController extends Controller
     return $this->render(
     	'DonCarPreciosServiceBundle:Admin:administrarServices.html.twig', 
     	array('services' => $services)
+    );
+  }
+
+
+
+  public function listarAction()    {
+    $services = $this->getDoctrine()
+        ->getRepository('DonCarPreciosServiceBundle:Service')
+        ->findAll(); 
+
+    return $this->render(
+      'DonCarPreciosServiceBundle:Usuario:listarServices.html.twig', 
+      array('services' => $services)
     );
   }
 

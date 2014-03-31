@@ -26,6 +26,10 @@ ps_service_alta:
     pattern: /serv_alta
     defaults: { _controller: DonCarPreciosServiceBundle:Service:alta }
 
+ps_service_listar:
+    pattern: /serv_listar
+    defaults: { _controller: DonCarPreciosServiceBundle:Service:listar }
+
 ps_mano_de_obra_administrar:
     pattern: /mdo_administrar
     defaults: { _controller: DonCarPreciosServiceBundle:ManoDeObra:administrar }

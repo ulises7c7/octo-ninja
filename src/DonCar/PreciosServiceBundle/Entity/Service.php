@@ -32,6 +32,13 @@ class Service{
 	protected $vehiculo;
 
 
+    /**
+    * @ORM\ManyToOne(targetEntity="TipoManoDeObra")
+    * @ORM\JoinColumn(name="tipo_mdo_id", referencedColumnName="id")
+    */
+    protected $manoDeObra;
+
+
 	/**
     * @ORM\OneToMany(targetEntity="Insumo", mappedBy="service", cascade={"persist", "remove"})
     */
@@ -49,6 +56,7 @@ class Service{
     */
     protected $precioVW;
 
+   
     /**
      * Constructor
      */
@@ -157,6 +165,29 @@ class Service{
     public function getVehiculo()
     {
         return $this->vehiculo;
+    }
+
+    /**
+     * Set manoDeObra
+     *
+     * @param \DonCar\PreciosServiceBundle\Entity\TipoManoDeObra $manoDeObra
+     * @return Service
+     */
+    public function setManoDeObra(\DonCar\PreciosServiceBundle\Entity\TipoManoDeObra $manoDeObra = null)
+    {
+        $this->manoDeObra = $manoDeObra;
+
+        return $this;
+    }
+
+    /**
+     * Get manoDeObra
+     *
+     * @return \DonCar\PreciosServiceBundle\Entity\TipoManoDeObra 
+     */
+    public function getManoDeObra()
+    {
+        return $this->manoDeObra;
     }
 
     /**
