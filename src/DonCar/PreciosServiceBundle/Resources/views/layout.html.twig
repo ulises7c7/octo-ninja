@@ -42,29 +42,39 @@ body { padding-top: 70px; }
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+              <!-- Menu Repuestos -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Repuestos<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ path( 'ps_repuesto_administrar') }}">Administrar</a></li>
+                  <li class="disabled"><a>Ver lista</a></li>
+                  <li class="disabled"><a>Crear nuevo</a></li>
                 </ul>
               </li>
+              <!-- Menu Mano de Obra -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mano de Obra<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ path( 'ps_mano_de_obra_administrar') }}">Administrar</a></li>
+                  <li class="disabled"><a>Ver lista</a></li>
+                  <li><a onclick="altaMDO()">Crear nuevo</a></li>
                 </ul>
               </li>
+              <!-- Menu Vehiculos -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Vehiculos<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ path( 'ps_vehiculo_administrar') }}">Administrar</a></li>
+                  <li class="disabled"><a>Ver lista</a></li>
+                  <li class="disabled"><a>Crear nuevo</a></li>
                 </ul>
               </li>
+              <!-- Menu Services -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="{{ path( 'ps_service_administrar') }}">Administrar</a></li>
-                  <li><a href="{{ path( 'ps_service_listar') }}">Ver services</a></li>
+                  <li><a href="{{ path( 'ps_service_listar') }}">Ver lista</a></li>
                   <li><a onclick="altaService()">Crear nuevo</a></li>
                 </ul>
               </li>
@@ -94,6 +104,13 @@ body { padding-top: 70px; }
 function altaService(){
   $( "#dialogo" ).load( 
     "{{ path( 'ps_service_alta') }}" , 
+    function() {
+      $('#myModal').modal('toggle');
+    });
+}
+function altaMDO(){
+  $( "#dialogo" ).load( 
+    "{{ path( 'ps_mano_de_obra_alta') }}" , 
     function() {
       $('#myModal').modal('toggle');
     });

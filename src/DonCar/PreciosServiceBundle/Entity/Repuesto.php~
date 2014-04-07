@@ -30,9 +30,14 @@ class Repuesto{
     */
     protected $descripcion;
 
+    /**
+    * @ORM\Column(type="string", length=500)
+    */
+    protected $nombre;
+
 
     /**
-    * @ORM\Column(type="decimal")
+    * @ORM\Column(type="float", precision=3)
     */
     protected $precio;
 
@@ -113,5 +118,28 @@ class Repuesto{
     public function getPrecio()
     {
         return $this->precio;
+    }
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return Repuesto
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
     }
 }
