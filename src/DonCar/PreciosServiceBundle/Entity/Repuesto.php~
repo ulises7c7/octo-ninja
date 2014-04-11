@@ -98,29 +98,6 @@ class Repuesto{
     }
 
     /**
-     * Set precio
-     *
-     * @param string $precio
-     * @return Repuesto
-     */
-    public function setPrecio($precio)
-    {
-        $this->precio = $precio;
-
-        return $this;
-    }
-
-    /**
-     * Get precio
-     *
-     * @return string 
-     */
-    public function getPrecio()
-    {
-        return $this->precio;
-    }
-
-    /**
      * Set nombre
      *
      * @param string $nombre
@@ -141,5 +118,28 @@ class Repuesto{
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set precio
+     *
+     * @param float $precio
+     * @return Repuesto
+     */
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
+
+        return $this;
+    }
+
+    /**
+     * Get precio
+     *
+     * @return float 
+     */
+    public function getPrecio()
+    {
+        return $this->precio;
     }
 }

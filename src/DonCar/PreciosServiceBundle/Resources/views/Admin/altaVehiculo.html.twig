@@ -5,35 +5,31 @@
         {{ form_start(form_alta) }}
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo tipo de Mano de Obra</h4>
+        <h4 class="modal-title" id="myModalLabel">Nuevo Vehiculo</h4>
       </div>
 
       <div class="modal-body">
 
           {{ form_errors(form_alta) }}
+
         <div class="form-group">
           {{ form_label(form_alta.codigo) }}
-          {{ form_widget(form_alta.codigo, {'attr': {'class':'form-control'}}) }}
+          {{ form_widget(form_alta.codigo, {'attr': {'placeholder': 'Codigo del vehiculo', 'class':'form-control'}}) }}
           {{ form_errors(form_alta.codigo) }}  
         </div>
+        
         <div class="form-group">
           {{ form_label(form_alta.nombre) }}
-          {{ form_widget(form_alta.nombre, {'attr': {'placeholder': 'Nombre mano de obra', 'class':'form-control'}}) }}
+          {{ form_widget(form_alta.nombre, {'attr': {'placeholder': 'ej: Gol Trend', 'class':'form-control'}}) }}
           {{ form_errors(form_alta.nombre) }}  
         </div>
+        
         <div class="form-group">
           {{ form_label(form_alta.descripcion) }}
-          {{ form_widget(form_alta.descripcion, {'attr': {'placeholder': 'Descripcion mano de obra', 'class':'form-control'}}) }}
+          {{ form_widget(form_alta.descripcion, {'attr': {'placeholder': 'Descripcion del vehiculo', 'class':'form-control'}}) }}
           {{ form_errors(form_alta.descripcion) }}  
         </div>
-        <div class="form-group">
-          {{ form_label(form_alta.precio) }}
-          <div class="input-group">
-            <span class="input-group-addon">$</span>
-            {{ form_widget(form_alta.precio, {'attr': {'placeholder': 'Precio', 'class':'form-control'}}) }}
-          </div>
-          {{ form_errors(form_alta.precio) }}
-        </div>
+
           {{ form_rest(form_alta)}}  
       </div>
 

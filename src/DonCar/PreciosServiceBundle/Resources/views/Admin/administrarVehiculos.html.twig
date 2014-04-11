@@ -1,44 +1,51 @@
 {% extends 'DonCarPreciosServiceBundle::layout.html.twig' %}
 {% block content %}
 
-
 <div class="page-header">
-        <h1>Vehiculos</h1>
-      </div>
-
-
-
-
-<div class="row">
-        <div class="col-sm-6">
-          <div class="panel panel-default">
-            <div class="panel-body">
-
-
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-	<th>Codigo</th>
-	<th>Nombre</th>
-	<th>Acciones</th>
-</tr>
-</thead>
-<tbody>
-{% for vehiculo in vehiculos %}
-
-<tr>
-	<td>{{ vehiculo.codigo }}</td>
-	<td>{{ vehiculo.nombre }}</td>
-	<td><a href="" >Editar</a> <a href="" >Eliminar</a></td>
-</tr>
-
-{% endfor %}
-</tbody>
-</table>
-
-
-            </div>
-          </div>
-        </div><!-- /.col-sm-4 -->
+  <h1>Vehiculos</h1>
 </div>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Nombre</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for vehiculo in vehiculos %}
+            <tr>
+              <td>{{ vehiculo.codigo }}</td>
+              <td>{{ vehiculo.nombre }}</td>
+              <td>
+                <a href="#" data-id="{{ vehiculo.id }}" class="editar-veh" >Editar</a>
+                <a href="" >Eliminar</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /.col-sm-4 -->
+</div>
+
+<script type="text/javascript">
+
+$(".editar-veh").click(function(){
+  dataid = $(this).attr("data-id");
+  path =  "{{ path( 'ps_vehiculo_editar', {'id': 999999999 }) }}";
+  path = path.replace("999999999", dataid);
+  $( "#dialogo" ).load(path, 
+    function() {
+      $('#myModal').modal('toggle');
+    });
+});
+
+</script>
+
 {% endblock %}  

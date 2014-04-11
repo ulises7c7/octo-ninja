@@ -12,7 +12,6 @@
         <table class="table table-condensed table-hover">
           <thead>
             <tr>
-              <th>Codigo</th>
               <th>Nombre</th>
               <th>Precio</th>
               <th>Acciones</th>
@@ -21,12 +20,49 @@
           <tbody>
             {% for tipo in tiposmdo %}
             <tr title="{{ tipo.descripcion }}" >
-              <td>{{ tipo.codigo }}</td>
               <td>{{ tipo.nombre }}</td>
               <td>{{ tipo.precio }}</td>
               <td>
-                <a href="#" class="editar-mdo" >Editar</a>
-                <a href="" >Eliminar</a></td>
+                <a href="#" data-id="{{ tipo.id }}" class="editar-mdo" >Editar</a>
+                <a href="#" data-id="{{ tipo.id }}" class="eliminar-mdo" >Eliminar</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /.col-sm-4 --> 
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-condensed table-hover">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for trabajo in trabajos %}
+            <tr>
+              <td>
+                {{ trabajo.nombre }}
+                {% if trabajo.costoporuso == false %}
+                  <small>({{trabajo.tipomanodeobra.nombre}})</small>
+                {% endif %}
+              </td>
+              {% if trabajo.costoPorUso %}
+              <td>{{ trabajo.precio }}</td>
+              {% else %}
+              <td>{{ trabajo.tiempo * trabajo.tipoManoDeObra.precio }}</td>
+              {% endif %}
+              <td>
+                <a href="#" data-id="{{ trabajo.id }}" class="editar-trab" >Editar</a>
+                <a href="#" data-id="{{ trabajo.id }}" class="eliminar-trab" >Eliminar</a></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -40,11 +76,49 @@
 <script type="text/javascript">
 
 $(".editar-mdo").click(function(){
-  $( "#dialogo" ).load( 
-    "{{ path( 'ps_mano_de_obra_editar', {'id': 1}) }}" , 
+  dataid = $(this).attr("data-id");
+  path =  "{{ path( 'ps_mano_de_obra_editar', {'id': 999999999 }) }}";
+  path = path.replace("999999999", dataid);
+  $( "#dialogo" ).load(path, 
     function() {
       $('#myModal').modal('toggle');
     });
+});
+
+
+$(".eliminar-mdo").click(function(){
+  dataid = $(this).attr("data-id");
+  titulo = "Eliminar tipo de mano de obra";
+  mensaje = "Esta seguro de que desea eliminar el tipo de mano de obra seleccionado?<br>Se eliminaran todos los servicios de este tipo."
+  confirmar(titulo,mensaje,function(){
+    path =  "{{ path( 'ps_mano_de_obra_eliminar', {'id': 999999999 }) }}";
+    path = path.replace("999999999", dataid);
+    window.location.href = path;
+  });
+});
+
+
+$(".eliminar-trab").click(function(){
+  dataid = $(this).attr("data-id");
+  titulo = "Eliminar servicio";
+  mensaje = "Esta seguro de que desea eliminar el servicio seleccionado?"
+  confirmar(titulo,mensaje,function(){
+    path =  "{{ path( 'ps_trabajo_eliminar', {'id': 999999999 }) }}";
+    path = path.replace("999999999", dataid);
+    window.location.href = path;
+  });
+});
+
+
+$(".editar-trab").click(function(){
+  dataid = $(this).attr("data-id");
+  path =  "{{ path( 'ps_trabajo_editar', {'id': 999999999 }) }}";
+  path = path.replace("999999999", dataid);
+  $( "#dialogo" ).load(path, 
+    function() {
+      $('#myModal').modal('toggle');
+    });
+
 })
 
 </script>

@@ -37,6 +37,11 @@ class Insumo{
 	*/
 	protected $repuesto;
 
+    /**
+    * @ORM\Column(type="float", nullable=true, precision=3)
+    */
+    protected $cantidad;
+
 
 	/**
 	* @ORM\ManyToOne(targetEntity="Condicion")
@@ -50,7 +55,6 @@ class Insumo{
 	* @ORM\JoinColumn(name="service_id", referencedColumnName="id")
 	*/
 	protected $service;
-
 
 
 
@@ -177,5 +181,28 @@ class Insumo{
     public function getService()
     {
         return $this->service;
+    }
+
+    /**
+     * Set cantidad
+     *
+     * @param float $cantidad
+     * @return Insumo
+     */
+    public function setCantidad($cantidad)
+    {
+        $this->cantidad = $cantidad;
+
+        return $this;
+    }
+
+    /**
+     * Get cantidad
+     *
+     * @return float 
+     */
+    public function getCantidad()
+    {
+        return $this->cantidad;
     }
 }

@@ -30,7 +30,6 @@ class Condicion{
     */
     protected $descripcion;
 
-
     /**
      * Get id
      *

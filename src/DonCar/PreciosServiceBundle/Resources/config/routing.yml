@@ -34,6 +34,18 @@ ps_mano_de_obra_editar:
     pattern: /mdo_editar_{id}
     defaults: { _controller: DonCarPreciosServiceBundle:ManoDeObra:editar }
 
+ps_vehiculo_editar:
+    pattern: /veh_editar_{id}
+    defaults: { _controller: DonCarPreciosServiceBundle:Vehiculo:editar }
+
+ps_mano_de_obra_eliminar:
+    pattern: /mdo_eliminar_{id}
+    defaults: { _controller: DonCarPreciosServiceBundle:ManoDeObra:eliminar }
+
+ps_trabajo_eliminar:
+    pattern: /trab_eliminar_{id}
+    defaults: { _controller: DonCarPreciosServiceBundle:Trabajo:eliminar }
+
 ps_service_listar:
     pattern: /serv_listar
     defaults: { _controller: DonCarPreciosServiceBundle:Service:listar }
@@ -41,6 +53,18 @@ ps_service_listar:
 ps_mano_de_obra_administrar:
     pattern: /mdo_administrar
     defaults: { _controller: DonCarPreciosServiceBundle:ManoDeObra:administrar }
+
+ps_trabajo_alta:
+    pattern: /trab_alta
+    defaults: { _controller: DonCarPreciosServiceBundle:Trabajo:alta }
+
+ps_vehiculo_alta:
+    pattern: /veh_alta
+    defaults: { _controller: DonCarPreciosServiceBundle:Vehiculo:alta }
+
+ps_trabajo_editar:
+    pattern: /trab_editar_{id}
+    defaults: { _controller: DonCarPreciosServiceBundle:Trabajo:editar }
 
 ps_root:
     path: /

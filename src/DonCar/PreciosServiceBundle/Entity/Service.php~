@@ -31,19 +31,16 @@ class Service{
 	*/
 	protected $vehiculo;
 
+  /**
+    * @ORM\OneToMany(targetEntity="ManoDeObra", mappedBy="service", cascade={"persist", "remove"})
+    */
+    protected $manosDeObra;
+
 
     /**
-    * @ORM\ManyToOne(targetEntity="TipoManoDeObra")
-    * @ORM\JoinColumn(name="tipo_mdo_id", referencedColumnName="id")
-    */
-    protected $manoDeObra;
-
-
-	/**
     * @ORM\OneToMany(targetEntity="Insumo", mappedBy="service", cascade={"persist", "remove"})
     */
-	protected $insumos;
-
+    protected $insumos;
 
     /**
     * @ORM\Column(type="decimal")
@@ -54,14 +51,12 @@ class Service{
     /**
     * @ORM\Column(type="decimal")
     */
-    protected $precioVW;
-
-   
-    /**
+    protected $precioVW;    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->manosDeObra = new \Doctrine\Common\Collections\ArrayCollection();
         $this->insumos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -168,26 +163,36 @@ class Service{
     }
 
     /**
-     * Set manoDeObra
+     * Add manosDeObra
      *
-     * @param \DonCar\PreciosServiceBundle\Entity\TipoManoDeObra $manoDeObra
+     * @param \DonCar\PreciosServiceBundle\Entity\ManoDeObra $manosDeObra
      * @return Service
      */
-    public function setManoDeObra(\DonCar\PreciosServiceBundle\Entity\TipoManoDeObra $manoDeObra = null)
+    public function addManosDeObra(\DonCar\PreciosServiceBundle\Entity\ManoDeObra $manosDeObra)
     {
-        $this->manoDeObra = $manoDeObra;
+        $this->manosDeObra[] = $manosDeObra;
 
         return $this;
     }
 
     /**
-     * Get manoDeObra
+     * Remove manosDeObra
      *
-     * @return \DonCar\PreciosServiceBundle\Entity\TipoManoDeObra 
+     * @param \DonCar\PreciosServiceBundle\Entity\ManoDeObra $manosDeObra
      */
-    public function getManoDeObra()
+    public function removeManosDeObra(\DonCar\PreciosServiceBundle\Entity\ManoDeObra $manosDeObra)
     {
-        return $this->manoDeObra;
+        $this->manosDeObra->removeElement($manosDeObra);
+    }
+
+    /**
+     * Get manosDeObra
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getManosDeObra()
+    {
+        return $this->manosDeObra;
     }
 
     /**

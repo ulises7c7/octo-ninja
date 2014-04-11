@@ -35,7 +35,6 @@ class Vehiculo{
     */
     protected $descripcion;
 
-
     /**
      * Get id
      *

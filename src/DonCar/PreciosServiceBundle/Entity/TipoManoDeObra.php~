@@ -41,7 +41,6 @@ class TipoManoDeObra{
     */
     protected $precio;
 
-
     /**
      * Get id
      *

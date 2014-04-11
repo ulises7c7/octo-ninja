@@ -5,17 +5,12 @@
         {{ form_start(form_alta) }}
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Nuevo tipo de Mano de Obra</h4>
+        <h4 class="modal-title" id="myModalLabel">Nuevo servicio</h4>
       </div>
 
       <div class="modal-body">
 
           {{ form_errors(form_alta) }}
-        <div class="form-group">
-          {{ form_label(form_alta.codigo) }}
-          {{ form_widget(form_alta.codigo, {'attr': {'class':'form-control'}}) }}
-          {{ form_errors(form_alta.codigo) }}  
-        </div>
         <div class="form-group">
           {{ form_label(form_alta.nombre) }}
           {{ form_widget(form_alta.nombre, {'attr': {'placeholder': 'Nombre mano de obra', 'class':'form-control'}}) }}
@@ -26,6 +21,13 @@
           {{ form_widget(form_alta.descripcion, {'attr': {'placeholder': 'Descripcion mano de obra', 'class':'form-control'}}) }}
           {{ form_errors(form_alta.descripcion) }}  
         </div>
+
+        <div class="form-group">
+          {{ form_label(form_alta.costo_por_uso) }}
+          {{ form_widget(form_alta.costo_por_uso, {'attr': {'class':'costoxuso'}}) }}
+          {{ form_errors(form_alta.costo_por_uso) }}  
+        </div>
+
         <div class="form-group">
           {{ form_label(form_alta.precio) }}
           <div class="input-group">
@@ -34,6 +36,22 @@
           </div>
           {{ form_errors(form_alta.precio) }}
         </div>
+
+        <div class="form-group">
+          {{ form_label(form_alta.tipo_mano_de_obra) }}
+          {{ form_widget(form_alta.tipo_mano_de_obra, {'attr': {'placeholder': 'Descripcion mano de obra', 'class':'form-control'}}) }}
+          {{ form_errors(form_alta.tipo_mano_de_obra) }}  
+        </div>
+
+        <div class="form-group">
+          {{ form_label(form_alta.tiempo) }}
+          <div class="input-group">
+            {{ form_widget(form_alta.tiempo, {'attr': {'placeholder': 'Precio', 'class':'form-control'}}) }}
+            <span class="input-group-addon">horas</span>
+          </div>
+          {{ form_errors(form_alta.tiempo) }}
+        </div>
+
           {{ form_rest(form_alta)}}  
       </div>
 
@@ -50,3 +68,28 @@
 
   </div>
 </div>
+
+<script>
+
+$("#trabajo_costo_por_uso").change(function(){
+  tipoCobro();
+});
+
+$("#myModal").ready(function(){
+  tipoCobro();
+});
+
+function tipoCobro(){
+    if ($("#trabajo_costo_por_uso").is( ':checked' )){
+    $("#trabajo_precio").prop('disabled', false);  //enable
+    $("#trabajo_tipo_mano_de_obra").prop('disabled', true); //disable
+    $("#trabajo_tiempo").prop('disabled', true); //disable
+  }else{
+    $("#trabajo_precio").prop('disabled', true);  //disable
+    $("#trabajo_tipo_mano_de_obra").prop('disabled', false); //enable
+    $("#trabajo_tiempo").prop('disabled', false); //enable
+  }
+}
+
+
+</script>

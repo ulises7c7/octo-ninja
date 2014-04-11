@@ -1,23 +1,17 @@
 {% extends 'DonCarPreciosServiceBundle::layout.html.twig' %}
 {% block content %}
 
+
+
+
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
 <div class="page-header">
-  <h1>{{service.vehiculo.nombre}}: {{service.descripcion}}</h1>
+  <h4>{{service.vehiculo.nombre}}: {{service.descripcion}}</h4>
 </div>
 
-
-
-
-<div class="row">
-  <div class="col-md-8">
-
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">Precios</h3>
-      </div>
-      <div class="panel-body">
-
-         <table class="table table-condensed table-hover">
+         <table>
           <tbody>
             <tr>
               <td><strong>Precio VW</strong></td>
@@ -31,17 +25,17 @@
             </tr>
             <tr><td></td><td></td><td>&nbsp;</td></tr>
             <tr>
-              <td>Repuestos Obligatorios</td>
+              <td>Obligatorios</td>
               <td><p class="text-right">$</p></td>
               <td><p class="precio-rep text-right" id="suma-insumos_1" >Suma</p></td>
             </tr>
             <tr>
-              <td>Repuestos Opcionales</td>
+              <td>Opcionales</td>
               <td><p class="text-right">$</p></td>
               <td> <p class="precio-rep text-right" id="suma-insumos_2" >Suma</p></td>
             </tr>
             <tr>
-              <td>Repuestos Secundarios</td>
+              <td>Secundarios</td>
               <td><p class="text-right">$</p></td>
               <td><p class="precio-rep text-right" id="suma-insumos_3" >Suma</p> </td>
             </tr>
@@ -52,14 +46,14 @@
             </tr>
             <tr><td></td><td></td><td>&nbsp;</td></tr>
             <tr>
-              <td>Precio por hora mano de obra <strong>{{service.manoDeObra.nombre}}</strong></td>
-              <td><p class="text-right">$</p></td>
-              <td><input id="precio-mdo-hora" size="6" class=" recalc-mdo numbersOnly form-control input-sm"  type="text"></td>
+              <td>Mano de obra (por hora)</td>
+              <td><p class="text-right"></p></td>
+              <td><input id="precio-mdo-hora" size="4" class=" recalc-mdo numbersOnly form-control input-sm"  type="text"></td>
             </tr>
             <tr>
               <td>Total de horas</td>
-              <td><p class="text-right"></p></td>
-              <td><input id="horas-mdo" size="6" class=" recalc-mdo numbersOnly form-control input-sm"  type="text"></td>
+              <td class="text-right"></td>
+              <td><input id="horas-mdo" size="4" class=" recalc-mdo numbersOnly form-control input-sm"  type="text"></td>
             </tr>
             <tr>
               <td><strong>Total mano de obra</strong></td>
@@ -69,46 +63,50 @@
           </tbody>
         </table>
       
-      </div>
-    </div>
 
-  </div><!-- /.col-md-6 -->
-</div>
-
+  </div>
+  <!-- Page content -->
+  <div id="page-content-wrapper">
 
 
-{% for condi in condiciones%}
+
+
+
+<!-- Trabajos -->
 <div class="row">
   <div class="col-md-8">
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">{{condi.nombre}}</h3>
+        <h3 class="panel-title">Trabajos</h3>
       </div>
       <div class="panel-body">
         <div class="table-responsive">
 
 
 
-        <table id="insumos_{{ condi.id }}" class="tabla-insumos table table-condensed table-hover">
+        <table   class="tabla-insumos table table-condensed table-hover">
           <thead>
             <tr>
-              <th>Codigo</th>
+              <th>&nbsp;</th>
               <th>Descripcion</th>
-              <th>Precio</th>
-              <th>#</th>
+              <th >Precio</th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
-            {% for insumo in service.insumos %}
-            {% if insumo.condicion == condi %}
+            {% for mdo in service.manosdeobra %}
             <tr>
-              <td style="color: grey" ><small>{{ insumo.repuesto.codigo }}</small></td>
-              <td>{{ insumo.repuesto.descripcion }}</td>
-              <td><p class="text-right">{{ insumo.repuesto.precio|number_format(2, ',', '') }}</p> </td>
-              <td><input class="recalc" {% if condi.id == 1 %} disabled checked {% endif %} type="checkbox"></td>
+              <td><input class="recalc" type="checkbox"></td>
+              <td>{{ mdo.trabajo.nombre }}</td>
+              <td >
+                  {% if mdo.trabajo.costoporuso %}
+                    {{ mdo.trabajo.precio|number_format(2, ',', '') }}
+                  {% else %}
+                    {{ (mdo.trabajo.tiempo*mdo.trabajo.tipomanodeobra.precio)|number_format(2, ',', '') }}
+                  {% endif %}
+              </td>
             </tr>
-            {% endif %}
             {% endfor %}
           </tbody>
         </table>
@@ -119,7 +117,56 @@
 
   </div><!-- /.col-md-6 -->
 </div>
+
+<!-- Repuestos -->
+
+{% for condi in condiciones %}
+<div class="row">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Repuestos {{condi.nombre}}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table 
+            id="insumos_{{ condi.id }}" 
+            class="tabla-insumos table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th>Cantidad</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for insumo in service.insumos %}
+              {% if insumo.condicion == condi %}
+              <tr>
+                <td><input class="recalc" {% if condi.id == 1 %} disabled checked {% endif %} type="checkbox"></td>
+                <td> <input type="text" value="{{ insumo.cantidad }}" ></td>
+                <td>{{ insumo.repuesto.descripcion }}</td>
+                <td><p class="text-right">{{ insumo.repuesto.precio|number_format(2, ',', '') }}</p> </td>
+                
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.col-md-6 -->
+</div>
 {% endfor %}
+
+
+
+  </div>
+</div>
 
 <script>
 
@@ -197,6 +244,11 @@ $('.numbersOnly').keyup(function () {
 });
 
 
+//Custom JavaScript for the Menu Toggle
+$("#menu-toggle").click(function(e) {
+  e.preventDefault();
+  $("#wrapper").toggleClass("active");
+});
 </script>
 
 {% endblock %}
